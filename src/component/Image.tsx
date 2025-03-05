@@ -1,0 +1,51 @@
+
+const images = {
+  logo: require('../assets/icons/LOGO2x.png'),
+  shop: require('../assets/images/cats.png'),
+  welcome: require('../assets/images/welcome.png'),
+  buble: require('../assets/images/buble.png'),
+  banner: require('../assets/images/image.png'),
+  BackNavs2: require('../assets/images/BackNavs2.png'),
+  Tag: require('../assets/images/Tag.png'),
+  locate: require('../assets/images/locate.png'),
+  homebg: require('../assets/images/homebg.png'),
+  c1: require('../assets/images/c1.png'),
+  c2: require('../assets/images/c2.png'),
+  c3: require('../assets/images/c3.png'),
+  c4: require('../assets/images/c4.png'),
+  cd: require('../assets/images/cd.png'),
+  share: require('../assets/images/share.png'),
+  msg: require('../assets/images/msg.png'),
+  call: require('../assets/images/call.png'),
+  locatei: require('../assets/images/locatei.png'),
+  map: require('../assets/images/map.png'),
+  mapbtn: require('../assets/images/mapbtn.png'),
+};
+const icon = {
+
+  ring: require('../assets/icons/ring.png'),
+
+  StarFill2x: require('../assets/icons/StarFill2x.png'),
+  fillring: require('../assets/icons/fillring.png'),
+  messages: require('../assets/icons/messages.png'),
+  notification: require('../assets/icons/Notification2x.png'),
+  Mail2: require('../assets/icons/Mail2.png'),
+  search: require('../assets/icons/Search2x.png'),
+  Filter: require('../assets/icons/Filter2x.png'),
+  home: require('../assets/icons/Home2x.png'),
+  pin: require('../assets/icons/pin.png'),
+  star: require('../assets/icons/start.png'),
+  Sms2: require('../assets/icons/SMS2.png'),
+  building4: require('../assets/icons/building4.png'),
+  mobile: require('../assets/icons/mobile.png'),
+  profile: require('../assets/icons/profile.png'),
+  lock: require('../assets/icons/Lock2.png'),
+  user: require('../assets/icons/user.png'),
+  email: require('../assets/icons/email.png'),
+  rightblue: require('../assets/icons/rightblue.png'),
+  eye: require('../assets/icons/eyehide.png'),
+  leftblue: require('../assets/icons/leftblue.png'),
+  heart: require('../assets/icons/heart.png'),
+};
+export default images
+export { icon }
