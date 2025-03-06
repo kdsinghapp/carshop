@@ -14,17 +14,23 @@ const images = {
   c3: require('../assets/images/c3.png'),
   c4: require('../assets/images/c4.png'),
   cd: require('../assets/images/cd.png'),
+  car1: require('../assets/images/car1.png'),
+  car2: require('../assets/images/car2.png'),
+  car3: require('../assets/images/car3.png'),
+  car4: require('../assets/images/car4.png'),
+  car5: require('../assets/images/car5.png'),
+  car6: require('../assets/images/car6.png'),
   share: require('../assets/images/share.png'),
   msg: require('../assets/images/msg.png'),
   call: require('../assets/images/call.png'),
   locatei: require('../assets/images/locatei.png'),
   map: require('../assets/images/map.png'),
   mapbtn: require('../assets/images/mapbtn.png'),
+  add: require('../assets/images/add.png'),
 };
 const icon = {
 
   ring: require('../assets/icons/ring.png'),
-
   StarFill2x: require('../assets/icons/StarFill2x.png'),
   fillring: require('../assets/icons/fillring.png'),
   messages: require('../assets/icons/messages.png'),

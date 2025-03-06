@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../App';
-import Icon from 'react-native-vector-icons/Feather';
+
 import AddReviewModal from '../screen/Feature/AddReviewModal';
+import Icon from './Icon';
+import Edit from '../assets/svg/messageedit.svg';
+
 
 type ReviewScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Review'>;
 type Props = { navigation: ReviewScreenNavigationProp };
@@ -53,9 +56,11 @@ const ReviewScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Review</Text>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <TouchableOpacity onPress={() => setModalVisible(true)} style={{flexDirection:'row',alignItems:'center'}}>
+          <Edit size={16} />
+
           <Text style={styles.addReview}>
-            <Icon name="edit" size={16} color="blue" /> Add Review
+            Add Review
           </Text>
         </TouchableOpacity>
       </View>
@@ -74,7 +79,7 @@ const ReviewScreen: React.FC<Props> = ({ navigation }) => {
           </View>
         )}
       />
-          <AddReviewModal
+      <AddReviewModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         onSubmit={handleAddReview}
@@ -103,6 +108,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'blue',
     fontWeight: '500',
+    marginLeft:5
   },
   card: {
     flexDirection: 'row',

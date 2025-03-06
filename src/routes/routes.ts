@@ -21,6 +21,7 @@ import LocationPicker from "../screen/Auth/LocationPicker";
 import AllServices from "../screen/Feature/AllServices";
 import NearByShops from "../screen/Feature/NearByShops";
 import GarageDetails from "../screen/Feature/GarageDetails";
+import CarBodyTypeScreen from "../screen/Feature/CarBodyTypeScreen";
 
 
 const _routes = {
@@ -76,6 +77,10 @@ const _routes = {
     {
       name: ScreenNameEnum.GARAGE_DETAILS,
       Component: GarageDetails,
+    },
+    {
+      name: ScreenNameEnum.CarBodyTypeScreen,
+      Component: CarBodyTypeScreen,
     },
 
 

@@ -77,7 +77,7 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
               )}
             />
           </View>
-          <View style={{ marginVertical: 10, borderTopWidth: 1, }}>
+          <View style={{ marginVertical: 10, borderTopWidth: 1,borderColor:'#D7D7D7',paddingTop:20 }}>
             <FlatList
               horizontal
               data={InfoList}
@@ -169,7 +169,7 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
             title='Book'
 
             onPress={() => {
-              navigation.navigate(ScreenNameEnum.BOOKING_COMPLETE)
+              navigation.navigate(ScreenNameEnum.CarBodyTypeScreen)
             }}
           />
         </View>
