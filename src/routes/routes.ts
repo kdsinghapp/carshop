@@ -35,6 +35,12 @@ import Bookmark from "../screen/BottamTab/Bookmark";
 import ChatList from "../screen/BottamTab/ChatList";
 import ChatScreen from "../screen/BottamTab/ChatScreen";
 import PriceGuide from "../screen/BottamTab/PriceGuide";
+import BookingList from "../component/BookingList";
+import MyBookings from "../screen/profile/MyBookings";
+import BookingDetails from "../screen/Feature/BookingDetails";
+import LeaveReview from "../screen/Feature/LeaveReview";
+import HelpCenter from "../screen/profile/HelpCenter";
+import Wallet from "../screen/profile/Wallet";
 
 const _routes = {
   REGISTRATION_ROUTE: [
@@ -129,6 +135,30 @@ const _routes = {
     {
       name: ScreenNameEnum.ChatScreen,
       Component: ChatScreen,
+    },
+    {
+      name: ScreenNameEnum.MyBookings,
+      Component: MyBookings,
+    },
+    {
+      name: ScreenNameEnum.BookingDetails,
+      Component: BookingDetails,
+    },
+    {
+      name: ScreenNameEnum.LeaveReview,
+      Component: LeaveReview,
+    },
+    {
+      name: ScreenNameEnum.HelpCenter,
+      Component: HelpCenter,
+    },
+    {
+      name: ScreenNameEnum.Reward,
+      Component: Reward,
+    },
+    {
+      name: ScreenNameEnum.Wallet,
+      Component: Wallet,
     },
 
 

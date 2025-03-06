@@ -1,6 +1,9 @@
 
 const images = {
   tyer: require('../assets/images/tyer.png'),
+  downside: require('../assets/icons/downside.png'),
+  upside: require('../assets/icons/upside.png'),
+  review: require('../assets/icons/review.png'),
   logo: require('../assets/icons/LOGO2x.png'),
   shop: require('../assets/images/cats.png'),
   welcome: require('../assets/images/welcome.png'),
@@ -57,6 +60,7 @@ const icon = {
   addfav: require('../assets/icons/Favorites2x.png'),
   addoffice: require('../assets/icons/Office2x.png'),
   StarFill2x: require('../assets/icons/StarFill2x.png'),
+  DisableStar: require('../assets/icons/StarDisable2x.png'),
   fillring: require('../assets/icons/fillring.png'),
   messages: require('../assets/icons/messages.png'),
   notification: require('../assets/icons/Notification2x.png'),

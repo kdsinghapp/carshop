@@ -30,27 +30,19 @@ const Reward: React.FC<Props> = ({ navigation }) => {
     const [searchQuery, setSearchQuery] = useState('');
     return (
         <View style={styles.container}>
-            <Text style={{ fontWeight: '600', fontSize: 18, color: "#fff", paddingHorizontal: 20, marginTop: 20 }}>Reward</Text>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-                <View style={{ marginHorizontal: 15 }}>
-                    <Text style={{ fontWeight: '400', fontSize: 12, color: "#fff", paddingHorizontal: 20, }}>Total Rewards Earned</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 15 }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Icon source={icon.coins} size={25} />
-                            <Text style={{ fontWeight: '600', marginLeft: 10, fontSize: 26, color: '#fff' }}>10.00</Text>
-                        </View>
+         <CustomHeader
+title='Redeem'
+navigation={navigation}
+         />
+            <ScrollView showsVerticalScrollIndicator={false}
+             contentContainerStyle={styles.scrollContent}>
+            
+            
+               <View>
 
-                        <Image
-                            source={images.reward}
-                            resizeMode='contain'
-                            style={{ height: 80, width: 80 }}
-
-                        />
-                    </View>
-                    <Text style={{ fontWeight: '400', fontSize: 14, color: "#fff", paddingHorizontal: 20, }}>Avaiable Coins</Text>
-                </View>
-                <Text style={{ fontWeight: '600', fontSize: 18, color: "#fff", marginVertical: 15, paddingHorizontal: 20, marginTop: 20 }}>Today</Text>
                 <ScratchCardList data={shopList} navigation={navigation} />
+               </View>
+               
             </ScrollView>
         </View>
     );
@@ -62,6 +54,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.baground,
+        paddingTop: 30,
     },
     scrollContent: {
         marginTop: 30,

@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 10,

@@ -67,24 +67,24 @@ const profileData: ProfileMenuItem[] = [
         id: 4,
         title: 'My Booking',
         icon: icon.MyBooking,
-        screen:ScreenNameEnum.ABOUT_SCREEN
+        screen:ScreenNameEnum.MyBookings
     },
     {
         id: 4,
         title: 'My Wallet',
         icon: icon.Wallet,
-        screen:ScreenNameEnum.ABOUT_SCREEN
+        screen:ScreenNameEnum.Wallet
     },{
         id: 4,
         title: 'Promo codes',
         icon: icon.PromoCode,
-        screen:ScreenNameEnum.ABOUT_SCREEN
+        screen:ScreenNameEnum.Reward
     },
     {
         id: 5,
         title: 'Help Center',
         icon: icon.HelpCenter,
-        screen: ScreenNameEnum.PRIVACY_POLICY
+        screen: ScreenNameEnum.HelpCenter
     },
     {
         id: 5,

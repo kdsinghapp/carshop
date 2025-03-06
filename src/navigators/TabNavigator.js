@@ -109,7 +109,7 @@ function CustomTabBar({ state, descriptors, navigation }) {
                 alignItems: 'center',
                 paddingHorizontal: 15,
                 width: 90, // Ensure equal spacing
-      marginTop:10
+                marginTop: 10
               }}
             >
               <Image
@@ -126,7 +126,7 @@ function CustomTabBar({ state, descriptors, navigation }) {
                   color: isFocused ? '#0063FF' : '#777777',
                   fontSize: 11,
                   marginTop: 5,
-                 
+
                 }}
               >
                 {label}

@@ -8,6 +8,8 @@ enum ScreenNameEnum {
   CREATE_PASSWORD="CREATE_PASSWORD",
   LocationAccessScreen='LocationAccessScreen',
   LocationPicker='LocationPicker',
+  MyBookings='MyBookings',
+  Reward='Reward',
 
 
   OTP_SCREEN = 'OTP_SCREEN',
@@ -25,6 +27,8 @@ enum ScreenNameEnum {
   PROFILE_SCREEN = 'PROFILE_SCREEN',
   SERVICE_SUMMERY = 'SERVICE_SUMMERY',
   EDIT_PROFILE = 'EDIT_PROFILE',
+  BookingDetails='BookingDetails',
+  Wallet='Wallet',
  
   VEHICAL_SCREEN = 'VEHICAL_SCREEN',
   NOTIFICATION_SETTING ="NOTIFICATION_SETTING",
@@ -43,7 +47,10 @@ enum ScreenNameEnum {
   BOOKMARK_SCREEN ="BOOKMARK_SCREEN",
   CHAT_SCREEN='CHAT_SCREEN',
   ChatScreen='ChatScreen',
-  PriceGuide='PriceGuide'
+  PriceGuide='PriceGuide',
+  BookingList='BookingList',
+  LeaveReview='LeaveReview',
+  HelpCenter='HelpCenter'
 
 
 }
