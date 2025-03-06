@@ -42,37 +42,60 @@ const profileData: ProfileMenuItem[] = [
     {
         id: 1,
         title: 'Profile',
-        icon: icon.user,
+        icon: icon.EditProfile,
         screen: ScreenNameEnum.EDIT_PROFILE,
     },
     {
         id: 2,
-        title: 'Vehicles',
-        icon: icon.user,
+        title: 'Manage Address',
+        icon: icon.ManageAddress,
         screen: ScreenNameEnum.VEHICAL_SCREEN,
     },
     {
         id: 3,
-        title: 'Notifications',
-        icon: icon.user,
+        title: 'Change Password',
+        icon: icon.ChangePassword,
         screen: ScreenNameEnum.NOTIFICATION_SETTING
     },
     {
         id: 4,
-        title: 'About Us',
-        icon: icon.user,
+        title: 'Payment Methods',
+        icon: icon.Payment,
+        screen:ScreenNameEnum.ABOUT_SCREEN
+    },
+    {
+        id: 4,
+        title: 'My Booking',
+        icon: icon.MyBooking,
+        screen:ScreenNameEnum.ABOUT_SCREEN
+    },
+    {
+        id: 4,
+        title: 'My Wallet',
+        icon: icon.Wallet,
+        screen:ScreenNameEnum.ABOUT_SCREEN
+    },{
+        id: 4,
+        title: 'Promo codes',
+        icon: icon.PromoCode,
         screen:ScreenNameEnum.ABOUT_SCREEN
     },
     {
         id: 5,
+        title: 'Help Center',
+        icon: icon.HelpCenter,
+        screen: ScreenNameEnum.PRIVACY_POLICY
+    },
+    {
+        id: 5,
         title: 'Privacy Policy',
-        icon: icon.user,
+        icon: icon.PrivacyPolicy,
         screen: ScreenNameEnum.PRIVACY_POLICY
     },
     {
         id: 6,
         title: 'Logout',
-        icon: icon.user,
+        icon: icon.Logout,
         screen: 'Logout',
     },
 ];
@@ -85,11 +108,11 @@ const styles = StyleSheet.create({
     headerText: {
         fontWeight: '600',
         fontSize: 22,
-        color: '#FFFFFF',
+        color: '#000',
         paddingHorizontal: 20,
-        marginTop: 20,
+        marginTop: 40,
     },
     scrollContent: {
-        marginTop: 30,
+        marginTop:20,
     },
 });

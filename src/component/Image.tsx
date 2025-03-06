@@ -34,6 +34,17 @@ const images = {
 };
 const icon = {
 
+  EditProfile: require('../assets/icons/EditProfile.png'),
+  ManageAddress: require('../assets/icons/ManageAddress.png'),
+  ChangePassword: require('../assets/icons/ChangePassword.png'),
+  Wallet: require('../assets/icons/Wallet.png'),
+  MyBooking: require('../assets/icons/MyBooking.png'),
+  Payment: require('../assets/icons/Payment.png'),
+  PromoCode: require('../assets/icons/PromoCode.png'),
+  PrivacyPolicy: require('../assets/icons/PrivacyPolicy.png'),
+  HelpCenter: require('../assets/icons/HelpCenter.png'),
+  Logout: require('../assets/icons/Logout.png'),
+
   shop: require('../assets/icons/shop.png'),
   rightarrow: require('../assets/icons/arrowright.png'),
   PriceGuide: require('../assets/icons/PriceGuide.png'),

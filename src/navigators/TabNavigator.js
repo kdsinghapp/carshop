@@ -1,14 +1,13 @@
-import { View, Text, Image, Keyboard, Platform } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, Image, Keyboard, Platform, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import _routes from '../routes/routes';
-
-
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       Platform.OS === 'android' ? 'keyboardDidShow' : 'keyboardWillShow',
@@ -23,7 +22,6 @@ export default function TabNavigator() {
       }
     );
 
-    // Clean up listeners
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
@@ -35,48 +33,108 @@ export default function TabNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-
-
         tabBarStyle: {
           display: isKeyboardVisible ? 'none' : 'flex',
-
-          paddingTop: 10,
           height: 70,
-
-
-        }
-
+        },
       }}
+      tabBar={(props) => <CustomTabBar {...props} />}
     >
-
-
-      {_routes.BOTTOM_TAB.map(screen => (
+      {_routes.BOTTOM_TAB.map((screen) => (
         <Tab.Screen
           key={screen.name}
           name={screen.name}
           component={screen.Component}
           options={{
-            tabBarIcon: ({ focused, color, size }) => (
+            tabBarIcon: ({ focused, color }) => (
               <>
-                {screen.lable !== 'Help' ?
+                {screen.lable !== 'Help' ? (
                   <>
                     <Image
-                      source={screen.logo} // Assuming you have imported icon for each screen
-                      style={{ width: 24, height: 24, tintColor: focused ? '#0063FF' : color }} // Adjust size and style as needed
+                      source={screen.logo}
+                      style={{
+                        width: 24,
+                        height: 24,
+                        tintColor: focused ? '#0063FF' : color,
+                      }}
                     />
-                    <Text style={{ fontWeight: '700', color: focused ? '#0063FF' : '#777777', fontSize: 11, marginTop: 5 }}>{screen.lable}</Text>
-                  </> :
-                  <Image source={screen.logo} style={{ height: 50, width:50}} />
-                }
+                    <Text
+                      style={{
+                        fontWeight: '700',
+                        color: focused ? '#0063FF' : '#777777',
+                        fontSize: 11,
+                        marginTop: 5,
+                      }}
+                    >
+                      {screen.lable}
+                    </Text>
+                  </>
+                ) : (
+                  <Image source={screen.logo} style={{ height: 50, width: 50 }} />
+                )}
               </>
             ),
-            tabBarLabel: screen.lable // Assuming you have label for each screen
+            tabBarLabel: screen.lable,
           }}
         />
       ))}
-
-
-
     </Tab.Navigator>
-  )
+  );
+}
+
+// Custom Scrollable Bottom Tab Bar
+function CustomTabBar({ state, descriptors, navigation }) {
+  return (
+    <View style={{ backgroundColor: '#fff', paddingBottom: 10 }}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minWidth: state.routes.length * 80, // Ensures all tabs are scrollable
+        }}
+      >
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key];
+          const label = options.tabBarLabel;
+          const isFocused = state.index === index;
+
+          return (
+            <TouchableOpacity
+              key={route.key}
+              onPress={() => navigation.navigate(route.name)}
+              style={{
+                alignItems: 'center',
+                paddingHorizontal: 15,
+                width: 90, // Ensure equal spacing
+      marginTop:10
+              }}
+            >
+              <Image
+                source={_routes.BOTTOM_TAB[index].logo}
+                style={{
+                  width: 24,
+                  height: 24,
+                  tintColor: isFocused ? '#0063FF' : '#777777',
+                }}
+              />
+              <Text
+                style={{
+                  fontWeight: '700',
+                  color: isFocused ? '#0063FF' : '#777777',
+                  fontSize: 11,
+                  marginTop: 5,
+                 
+                }}
+              >
+                {label}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+    </View>
+  );
 }
