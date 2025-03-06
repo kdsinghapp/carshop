@@ -1,5 +1,6 @@
 
 const images = {
+  tyer: require('../assets/images/tyer.png'),
   logo: require('../assets/icons/LOGO2x.png'),
   shop: require('../assets/images/cats.png'),
   welcome: require('../assets/images/welcome.png'),
@@ -8,6 +9,7 @@ const images = {
   BackNavs2: require('../assets/images/BackNavs2.png'),
   Tag: require('../assets/images/Tag.png'),
   locate: require('../assets/images/locate.png'),
+  checks: require('../assets/images/checks.png'),
   homebg: require('../assets/images/homebg.png'),
   c1: require('../assets/images/c1.png'),
   c2: require('../assets/images/c2.png'),
@@ -27,10 +29,22 @@ const images = {
   map: require('../assets/images/map.png'),
   mapbtn: require('../assets/images/mapbtn.png'),
   add: require('../assets/images/add.png'),
+  addcircle: require('../assets/images/addcircle.png'),
+  bookmark: require('../assets/images/bookmark.png'),
 };
 const icon = {
 
+  shop: require('../assets/icons/shop.png'),
+  rightarrow: require('../assets/icons/arrowright.png'),
+  PriceGuide: require('../assets/icons/PriceGuide.png'),
+  clock: require('../assets/images/clock.png'),
+  boar: require('../assets/images/boar.png'),
+  mic: require('../assets/images/mic.png'),
+  send: require('../assets/images/send.png'),
   ring: require('../assets/icons/ring.png'),
+  addhome: require('../assets/icons/homad.png'),
+  addfav: require('../assets/icons/Favorites2x.png'),
+  addoffice: require('../assets/icons/Office2x.png'),
   StarFill2x: require('../assets/icons/StarFill2x.png'),
   fillring: require('../assets/icons/fillring.png'),
   messages: require('../assets/icons/messages.png'),

@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     fontWeight: '500',
-    color: '#FFFFFF',
+    color: '#000',
     marginLeft: 20
   },
 });

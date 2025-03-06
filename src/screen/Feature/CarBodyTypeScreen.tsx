@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import images from "../../component/Image";
 import Icon from "../../component/Icon";
 import CustomButton from "../../component/CustomButton";
+import ScreenNameEnum from "../../routes/screenName.enum";
 
 interface CarType {
     id: string;
@@ -25,7 +26,12 @@ const CarBodyTypeScreen: React.FC = () => {
     const navigation = useNavigation();
 
     const renderItem = ({ item }: { item: CarType }) => (
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity
+        onPress={() => {
+
+            navigation.navigate(ScreenNameEnum.CarList)
+        }}
+        style={styles.card}>
             <Image source={item.image} style={styles.image} resizeMode="contain" />
             <Text style={styles.text}>{item.name}</Text>
         </TouchableOpacity>
@@ -39,7 +45,10 @@ const CarBodyTypeScreen: React.FC = () => {
                     <Icon source={images.BackNavs2} size={30} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Car Body Type</Text>
-                <TouchableOpacity onPress={() => console.log("Add New")}>
+                <TouchableOpacity onPress={() => {
+
+                    navigation.navigate(ScreenNameEnum.AddVehicleScreen)
+                }}>
                     <Icon source={images.add} size={30} />
                 </TouchableOpacity>
             </View>
@@ -56,11 +65,11 @@ const CarBodyTypeScreen: React.FC = () => {
             <CustomButton
                 title='Continue'
                 buttonStyle={{
-                    marginBottom:10,
-                    paddingHorizontal:10
+                    marginBottom:30,
+                    marginHorizontal:10
                 }}
                 onPress={() => {
-                    navigation.navigate(ScreenNameEnum.CarBodyTypeScreen)
+                    navigation.navigate(ScreenNameEnum.CarList)
                 }}
             />
         </View>

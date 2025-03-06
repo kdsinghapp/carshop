@@ -3,8 +3,9 @@
   import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
   import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
   import { color } from '../../constant';
-import { icon } from '../../component/Image';
+import images, { icon } from '../../component/Image';
 import Icon from '../../component/Icon';
+import { useNavigation } from '@react-navigation/native';
   
   interface Message {
     id: string;
@@ -12,7 +13,7 @@ import Icon from '../../component/Icon';
     sender: 'user' | 'bot';
   }
   
-  const Help: React.FC = () => {
+  const ChatScreen: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([
       { id: '1', text: 'Hello chatGPT, how are you today?', sender: 'user' },
       { id: '2', text: "Hello, I'm fine, how can I help you?", sender: 'bot' },
@@ -35,25 +36,45 @@ import Icon from '../../component/Icon';
   
     const renderMessage = ({ item }: { item: Message }) => (
       <View style={[styles.messageContainer, item.sender === 'user' ? styles.userMessage : styles.botMessage]}>
-        {item.sender === 'bot' && <Image source={icon.avtar} style={styles.avatar} />}
+        {item.sender === 'bot' && <Image source={icon.boar} style={styles.avatar} />}
         <Text style={styles.messageText}>{item.text}</Text>
       </View>
     );
-  
+  const navigation = useNavigation()
     return (
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerText}>Support</Text>
-          <TouchableOpacity>
-            <Icon  source={icon.phone} size={40}  />
-          </TouchableOpacity>
+       <TouchableOpacity
+       onPress={()=>{
+        navigation.goBack()
+       }}
+
+       style={{marginTop:8}}
+       >
+        <Icon  source={images.BackNavs2} size={30}  />
+       </TouchableOpacity>
+       <View>
+        <View style={{flexDirection:'row',marginLeft:15}}>
+
+       <Icon  source={icon.boar} size={50}  />
+       <View style={{marginLeft:10}}>
+
+       <Text style={{fontSize:14,fontWeight:'500',color:'#fff'}}>Jenny Wilson</Text>
+       <Text style={{fontSize:12,fontWeight:'500',color:'grey'}}>Online</Text>
+       </View>
+        </View>
+       </View>
         </View>
   
         {/* Greeting */}
-        <Text style={styles.greetingText}>Hello, <Text style={styles.highlight}>Johan</Text></Text>
-  
+ 
         {/* Chat Messages */}
+        <View style={{
+          flex:1,padding:15
+        }}>
+
+
         <FlatList
           data={messages}
           keyExtractor={(item) => item.id}
@@ -67,7 +88,7 @@ import Icon from '../../component/Icon';
           <TextInput
             style={styles.input}
             placeholder="Ask Chatbot"
-            placeholderTextColor="#fff"
+            placeholderTextColor="#A1A1A1"
             value={inputText}
             onChangeText={setInputText}
           />
@@ -81,23 +102,25 @@ import Icon from '../../component/Icon';
 
           </View>
         </View>
+        </View>
       </View>
     );
   };
   
-  export default Help;
+  export default ChatScreen;
   
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#0E1333',
-      paddingHorizontal: 20,
-      paddingTop: 50,
+      backgroundColor: '#fff',
+
     },
     header: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+      paddingVertical:40,
+      paddingHorizontal:10,
+      backgroundColor:color.buttonColor,
+      height:120,
+      flexDirection:'row'
     },
     headerText: {
       fontSize: 18,
@@ -128,7 +151,7 @@ import Icon from '../../component/Icon';
     },
     userMessage: {
       alignSelf: 'flex-end',
-      backgroundColor: '#9E9E9E',
+      backgroundColor: '#0063FF',
       padding:15,
       borderRadius:30,
       borderTopRightRadius:0
@@ -153,17 +176,26 @@ import Icon from '../../component/Icon';
     inputContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: '#282F5A',
+      backgroundColor: '#fff',
       borderRadius: 30,
       paddingHorizontal: 15,
       height: 50,
       marginTop: 10,
-      bottom:20
+      bottom:20,
+      shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 2,
+},
+shadowOpacity: 0.25,
+shadowRadius: 3.84,
+
+elevation: 5,
     },
     input: {
       flex: 1,
       fontSize: 14,
-      color: '#FFFFFF',
+      color: '#000',
     },
     micIcon: {
       marginLeft: 10,

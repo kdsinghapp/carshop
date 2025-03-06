@@ -42,37 +42,37 @@ const profileData: ProfileMenuItem[] = [
     {
         id: 1,
         title: 'Profile',
-        icon: icon.profileIcon,
+        icon: icon.user,
         screen: ScreenNameEnum.EDIT_PROFILE,
     },
     {
         id: 2,
         title: 'Vehicles',
-        icon: icon.bikep,
+        icon: icon.user,
         screen: ScreenNameEnum.VEHICAL_SCREEN,
     },
     {
         id: 3,
         title: 'Notifications',
-        icon: icon.bellp,
+        icon: icon.user,
         screen: ScreenNameEnum.NOTIFICATION_SETTING
     },
     {
         id: 4,
         title: 'About Us',
-        icon: icon.aboutIcon,
+        icon: icon.user,
         screen:ScreenNameEnum.ABOUT_SCREEN
     },
     {
         id: 5,
         title: 'Privacy Policy',
-        icon: icon.privacy,
+        icon: icon.user,
         screen: ScreenNameEnum.PRIVACY_POLICY
     },
     {
         id: 6,
         title: 'Logout',
-        icon: icon.logout,
+        icon: icon.user,
         screen: 'Logout',
     },
 ];

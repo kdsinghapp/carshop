@@ -1,5 +1,5 @@
 
-import { icon } from "../component/Image";
+import images, { icon } from "../component/Image";
 import TabNavigator from "../navigators/TabNavigator";
 import Forgotpassword from "../screen/Auth/ResetOptions ";
 import Login from "../screen/Auth/Login";
@@ -9,7 +9,7 @@ import Splash from "../screen/Auth/Splash";
 import VerifyOtp from "../screen/Auth/VerifyOtp";
 import Welcome from "../screen/Auth/Welcome";
 import Booking from "../screen/BottamTab/Booking";
-import Help from "../screen/BottamTab/Help";
+import Help from "../screen/BottamTab/ChatScreen";
 import Home from "../screen/BottamTab/Home";
 import Profile from "../screen/BottamTab/Profile";
 import Reward from "../screen/BottamTab/Reward";
@@ -22,7 +22,19 @@ import AllServices from "../screen/Feature/AllServices";
 import NearByShops from "../screen/Feature/NearByShops";
 import GarageDetails from "../screen/Feature/GarageDetails";
 import CarBodyTypeScreen from "../screen/Feature/CarBodyTypeScreen";
-
+import AddVehicleScreen from "../screen/Feature/AddVehicleScreen";
+import CarList from "../screen/Feature/CarList";
+import BookServiceScreen from "../screen/Feature/BookServiceScreen";
+import PickUpAddress from "../screen/Feature/PickUpAddress";
+import PaymentMethod from "../screen/Feature/PaymentMethod";
+import PaymentSummary from "../screen/Feature/PaymentSummary";
+import Congratulation from "../screen/Feature/Congratulation";
+import FilterScreen from "../screen/Feature/FilterScreen";
+import Explore from "../screen/BottamTab/Explore";
+import Bookmark from "../screen/BottamTab/Bookmark";
+import ChatList from "../screen/BottamTab/ChatList";
+import ChatScreen from "../screen/BottamTab/ChatScreen";
+import PriceGuide from "../screen/BottamTab/PriceGuide";
 
 const _routes = {
   REGISTRATION_ROUTE: [
@@ -82,6 +94,43 @@ const _routes = {
       name: ScreenNameEnum.CarBodyTypeScreen,
       Component: CarBodyTypeScreen,
     },
+    {
+      name: ScreenNameEnum.AddVehicleScreen,
+      Component: AddVehicleScreen,
+    },
+    {
+      name: ScreenNameEnum.CarList,
+      Component: CarList,
+    },
+    {
+      name: ScreenNameEnum.BookServiceScreen,
+      Component: BookServiceScreen,
+    },
+    {
+      name: ScreenNameEnum.PickUpAddress,
+      Component: PickUpAddress,
+    },
+    {
+      name: ScreenNameEnum.PaymentMethod,
+      Component: PaymentMethod,
+    },
+    {
+      name: ScreenNameEnum.PaymentSummary,
+      Component: PaymentSummary,
+    },
+    {
+      name: ScreenNameEnum.Congratulation,
+      Component: Congratulation,
+    },
+    {
+      name: ScreenNameEnum.FilterScreen,
+      Component: FilterScreen,
+    },
+    {
+      name: ScreenNameEnum.ChatScreen,
+      Component: ChatScreen,
+    },
+
 
 
   ],
@@ -98,34 +147,42 @@ const _routes = {
       logo: icon.home,
       lable: 'Home'
     },
-    // {
-    //   name: ScreenNameEnum.BOOKING_SCREEN,
-    //   Component: Booking,
-    //   active: icon.booking,
-    //   logo: icon.booking,
-    //   lable: 'Booking'
-    // },
     {
-      name: ScreenNameEnum.SUPPORT_SCREEN,
-      Component: Help,
+      name: ScreenNameEnum.EXPLORE_SCREEN,
+      Component: Explore,
+      active: icon.pin,
+      logo: icon.pin,
+      lable: 'Explore'
+    },
+ 
+    {
+      name: ScreenNameEnum.BOOKMARK_SCREEN,
+      Component: Bookmark,
+      active: images.bookmark,
+      logo: images.bookmark,
+      lable: 'Bookmark'
+    },
+    {
+      name: ScreenNameEnum.CHAT_SCREEN,
+      Component: ChatList,
       active: icon.messages,
       logo: icon.messages,
       lable: 'Chat'
     },
-    // {
-    //   name: ScreenNameEnum.REWARD_SCREEN,
-    //   Component: Reward,
-    //   active: icon.reward,
-    //   logo: icon.reward,
-    //   lable: 'Reward'
-    // },
-    // {
-    //   name: ScreenNameEnum.PROFILE_SCREEN,
-    //   Component: Profile,
-    //   active: icon.profile,
-    //   logo: icon.profile,
-    //   lable: 'Profile'
-    // },
+    {
+      name: ScreenNameEnum.PriceGuide,
+      Component: PriceGuide,
+      active: icon.PriceGuide,
+      logo: icon.PriceGuide,
+      lable: 'PriceGuide'
+    },
+    {
+      name: ScreenNameEnum.PROFILE_SCREEN,
+      Component: Profile,
+      active: icon.user,
+      logo: icon.user,
+      lable: 'Profile'
+    },
 
 
 

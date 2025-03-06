@@ -8,7 +8,7 @@ import { mergeConfig } from 'axios';
 interface ListItem {
   id: string;
   name: string;
-  description: string;
+  details: string;
   img: any; // Can be a local or remote image
 }
 
@@ -36,6 +36,7 @@ const VerticalList: React.FC<VerticalListProps> = ({ data, navigation, showBtn }
           <Image source={item.img} style={styles.image} resizeMode="contain" />
           <View style={styles.textContainer}>
             <Text style={styles.title}>{item.name}</Text>
+           {item.details && <Text style={{color:'#7B6F72',fontSize:14,fontWeight:'600'}}>{item.details}</Text>}
 
           </View>
           {showBtn &&

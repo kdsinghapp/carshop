@@ -30,8 +30,20 @@ enum ScreenNameEnum {
   NOTIFICATION_SETTING ="NOTIFICATION_SETTING",
   ABOUT_SCREEN ="ABOUT_SCREEN",
   PRIVACY_POLICY='PRIVACY_POLICY',
-  CarBodyTypeScreen='CarBodyTypeScreen'
-
+  CarBodyTypeScreen='CarBodyTypeScreen',
+  AddVehicleScreen='AddVehicleScreen',
+  CarList='CarList',
+  BookServiceScreen='BookServiceScreen',
+  PickUpAddress='PickUpAddress',
+  PaymentMethod='PaymentMethod',
+  PaymentSummary='PaymentSummary',
+  Congratulation='Congratulation',
+  FilterScreen='FilterScreen',
+  EXPLORE_SCREEN='EXPLORE_SCREEN',
+  BOOKMARK_SCREEN ="BOOKMARK_SCREEN",
+  CHAT_SCREEN='CHAT_SCREEN',
+  ChatScreen='ChatScreen',
+  PriceGuide='PriceGuide'
 
 
 }
