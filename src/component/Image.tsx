@@ -34,6 +34,8 @@ const images = {
   add: require('../assets/images/add.png'),
   addcircle: require('../assets/images/addcircle.png'),
   bookmark: require('../assets/images/bookmark.png'),
+  debit2x: require('../assets/images/debit2x.png'),
+  credit2x: require('../assets/images/credit2x.png'),
 };
 const icon = {
 

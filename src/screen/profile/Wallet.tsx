@@ -6,6 +6,10 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import Icon from "../../component/Icon";
+import images from "../../component/Image";
+import { color } from "../../constant";
+import CustomHeader from "../../component/CustomHeaderProps";
 
 interface Transaction {
   id: string;
@@ -24,19 +28,32 @@ const transactions: Transaction[] = [
   { id: "7", amount: 399.0, name: "Carla Siphron", date: "6 June 2024" },
 ];
 
-const Wallet: React.FC = () => {
+const Wallet: React.FC = ({navigation}) => {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <Text style={styles.header}>Wallet</Text>
+   <CustomHeader   title="Wallet"  showSkip={false}  navigation={navigation} />
 
       {/* Balance Section */}
+
+      <View style={{flex:1,padding:20}}>
+
+
       <View style={styles.balanceContainer}>
         <Text style={styles.balanceLabel}>Your Available Balance</Text>
-        <Text style={styles.balanceAmount}>$12,256.00</Text>
-        <TouchableOpacity style={styles.addButton}>
-          <Text style={styles.addButtonText}>Add Amount +</Text>
-        </TouchableOpacity>
+
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between', borderColor: color.buttonColor,
+          borderWidth: 1, width: '100%',
+        }}>
+          <View style={[styles.addButton, { borderRadius: 30, borderWidth: 0, backgroundColor: 'rgba(255, 255, 255, 0.2)' }]}>
+            <Text style={styles.balanceAmount}>$12,256.00</Text>
+          </View>
+          <TouchableOpacity style={styles.addButton}>
+            <Text style={styles.addButtonText}>Add Amount +</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Payment History */}
@@ -46,21 +63,26 @@ const Wallet: React.FC = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.transactionItem}>
-            <Text
-              style={[
-                styles.transactionAmount,
-                { color: item.amount > 500 ? "#007AFF" : "#FF3B30" }, // Blue for high amounts, Red for low
-              ]}
-            >
-              ${item.amount.toFixed(2)}
-            </Text>
-            <View style={styles.transactionDetails}>
+            <View style={{}}>
+              <Text
+                style={[
+                  styles.transactionAmount,
+                  { color: '#0066FF' }, // Blue for high amounts, Red for low
+                ]}
+              >
+                ${item.amount.toFixed(2)}
+              </Text>
               <Text style={styles.transactionName}>{item.name}</Text>
+            </View>
+            <View style={styles.transactionDetails}>
+              <Icon source={item.amount > 500 ? images.debit2x : images.credit2x} size={30} />
+
               <Text style={styles.transactionDate}>{item.date}</Text>
             </View>
           </View>
         )}
       />
+            </View>
     </View>
   );
 };
@@ -69,7 +91,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20,
+    paddingTop:40
+
   },
   header: {
     fontSize: 22,
@@ -79,31 +102,33 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   balanceContainer: {
-    backgroundColor: "#007AFF",
-    borderRadius: 12,
+    backgroundColor: color.buttonColor,
+    marginTop:20,
+    borderRadius: 15,
     padding: 20,
-    alignItems: "center",
+    paddingVertical: 40,
     marginBottom: 20,
   },
   balanceLabel: {
     fontSize: 14,
-    color: "#E0E0E0",
+    color: "#fff",
   },
   balanceAmount: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#fff",
-    marginVertical: 5,
+
   },
   addButton: {
-    backgroundColor: "#fff",
+    borderColor: "#fff",
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderRadius: 20,
     marginTop: 10,
+    borderWidth: 2
   },
   addButtonText: {
-    color: "#007AFF",
+    color: "#fff",
     fontWeight: "bold",
     fontSize: 14,
   },
