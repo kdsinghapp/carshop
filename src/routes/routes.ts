@@ -55,6 +55,7 @@ import CompanyProfile from "../screen/company/CompanyProfile";
 import ProfileScreen from "../screen/company/ProfileScreen";
 import NotificationSetting from "../screen/company/NotificationSetting";
 import SupportScreen from "../screen/company/SupportScreen";
+import Aboutus from "../screen/company/Aboutus";
 
 const _routes = {
   REGISTRATION_ROUTE: [
@@ -221,6 +222,10 @@ const _routes = {
     {
       name: ScreenNameEnum.SupportScreen,
       Component: SupportScreen,
+    },
+    {
+      name: ScreenNameEnum.Aboutus,
+      Component: Aboutus,
     },
 
 

@@ -54,7 +54,6 @@ const profileData: ProfileMenuItem[] = [
     },
 
    
-
     {
         id: 3,
         title: 'Support',
@@ -65,7 +64,7 @@ const profileData: ProfileMenuItem[] = [
         id: 4,
         title: 'About Us',
         icon: icon.iCon2,
-        screen: ScreenNameEnum.PaymentMethods
+        screen: ScreenNameEnum.Aboutus
     },
     {
         id: 5,

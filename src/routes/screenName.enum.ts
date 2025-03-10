@@ -19,6 +19,7 @@ enum ScreenNameEnum {
   ProfileScreen='ProfileScreen',
   NotificationSetting='NotificationSetting',
   SupportScreen='SupportScreen',
+  Aboutus='Aboutus',
 
   OTP_SCREEN = 'OTP_SCREEN',
   PROFILE_DETAILS = 'PROFILE_DETAILS',
