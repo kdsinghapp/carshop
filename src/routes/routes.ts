@@ -41,6 +41,20 @@ import BookingDetails from "../screen/Feature/BookingDetails";
 import LeaveReview from "../screen/Feature/LeaveReview";
 import HelpCenter from "../screen/profile/HelpCenter";
 import Wallet from "../screen/profile/Wallet";
+import EditProfile from "../screen/profile/EditProfile";
+import ManageAddress from "../screen/profile/ManageAddress";
+import ChangePassword from "../screen/profile/ChangePassword";
+import PaymentMethods from "../screen/profile/PaymentMethods";
+import Privacy from "../screen/profile/Privacy";
+import LoginOption from "../screen/Auth/LoginOption";
+import CompanyLogin from "../screen/Auth/CompanyLogin";
+import CompanyHome from "../screen/company/CompanyHome";
+import JobDetailsScreen from "../screen/company/JobDetailsScreen";
+import NotificationScreen from "../screen/company/NotificationScreen";
+import CompanyProfile from "../screen/company/CompanyProfile";
+import ProfileScreen from "../screen/company/ProfileScreen";
+import NotificationSetting from "../screen/company/NotificationSetting";
+import SupportScreen from "../screen/company/SupportScreen";
 
 const _routes = {
   REGISTRATION_ROUTE: [
@@ -49,12 +63,20 @@ const _routes = {
       Component: Splash,
     },
     {
+      name: ScreenNameEnum.LoginOption,
+      Component: LoginOption,
+    },
+    {
       name: ScreenNameEnum.WELCOME_SCREEN,
       Component: Welcome,
     },
     {
       name: ScreenNameEnum.LOGIN_SCREEN,
       Component: Login,
+    },
+    {
+      name: ScreenNameEnum.COMPANY_LOGIN,
+      Component: CompanyLogin,
     },
     {
       name: ScreenNameEnum.SIGNUP_SCREEN,
@@ -160,6 +182,46 @@ const _routes = {
       name: ScreenNameEnum.Wallet,
       Component: Wallet,
     },
+    {
+      name: ScreenNameEnum.EDIT_PROFILE,
+      Component: EditProfile,
+    },
+    {
+      name: ScreenNameEnum.ManageAddress,
+      Component: ManageAddress,
+    },
+    {
+      name: ScreenNameEnum.CHANGE_PASSWORD,
+      Component: ChangePassword,
+    },
+    {
+      name: ScreenNameEnum.PaymentMethods,
+      Component: PaymentMethods,
+    },
+    {
+      name: ScreenNameEnum.PRIVACY_POLICY,
+      Component: Privacy,
+    },
+    {
+      name: ScreenNameEnum.JobDetailsScreen,
+      Component: JobDetailsScreen,
+    },
+    {
+      name: ScreenNameEnum.NotificationScreen,
+      Component: NotificationScreen,
+    },
+    {
+      name: ScreenNameEnum.ProfileScreen,
+      Component: ProfileScreen,
+    },
+    {
+      name: ScreenNameEnum.NotificationSetting,
+      Component: NotificationSetting,
+    },
+    {
+      name: ScreenNameEnum.SupportScreen,
+      Component: SupportScreen,
+    },
 
 
 
@@ -218,6 +280,30 @@ const _routes = {
 
   ]
   ,
+
+  COMPANY_TAB:[
+    {
+      name: ScreenNameEnum.COMPANYHOME_SCREEN,
+      Component: CompanyHome,
+      active: icon.home,
+      logo: icon.home,
+      lable: 'Home'
+    },
+    {
+      name: ScreenNameEnum.CHAT_SCREEN,
+      Component: ChatList,
+      active: icon.messages,
+      logo: icon.messages,
+      lable: 'Chat'
+    },
+    {
+      name: ScreenNameEnum.COMPANYPROFILE_SCREEN,
+      Component: CompanyProfile,
+      active: icon.user,
+      logo: icon.user,
+      lable: 'Profile'
+    },
+  ]
 
 
 };

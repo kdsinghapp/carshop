@@ -74,7 +74,7 @@ import ScreenNameEnum from '../../routes/screenName.enum';
       container: {
         flex: 1,
         backgroundColor:color.baground,
-        paddingVertical:30
+
       },
     });
     

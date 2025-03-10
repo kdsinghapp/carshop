@@ -41,14 +41,17 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F7F8F8',
+    backgroundColor: '#fff',
+    borderWidth:2,
+    borderColor:'#EBEBEB',
     borderRadius: 15,
     paddingHorizontal: 15,
-    height: 60,
+    height: 55,
     marginTop: 10
   },
   icon: {
     marginRight: 10,
+    tintColor:'#7B6F72'
   },
   input: {
     flex: 1,

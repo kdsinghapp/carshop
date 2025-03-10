@@ -10,7 +10,15 @@ enum ScreenNameEnum {
   LocationPicker='LocationPicker',
   MyBookings='MyBookings',
   Reward='Reward',
-
+  PaymentMethods='PaymentMethods',
+  LoginOption='LoginOption',
+  COMPANYHOME_SCREEN='COMPANYHOME_SCREEN',
+  JobDetailsScreen='JobDetailsScreen',
+  NotificationScreen='NotificationScreen',
+  COMPANYPROFILE_SCREEN='COMPANYPROFILE_SCREEN',
+  ProfileScreen='ProfileScreen',
+  NotificationSetting='NotificationSetting',
+  SupportScreen='SupportScreen',
 
   OTP_SCREEN = 'OTP_SCREEN',
   PROFILE_DETAILS = 'PROFILE_DETAILS',
@@ -28,7 +36,10 @@ enum ScreenNameEnum {
   SERVICE_SUMMERY = 'SERVICE_SUMMERY',
   EDIT_PROFILE = 'EDIT_PROFILE',
   BookingDetails='BookingDetails',
+  ManageAddress='ManageAddress',
   Wallet='Wallet',
+  CHANGE_PASSWORD='CHANGE_PASSWORD',
+  COMPANY_LOGIN='COMPANY_LOGIN',
  
   VEHICAL_SCREEN = 'VEHICAL_SCREEN',
   NOTIFICATION_SETTING ="NOTIFICATION_SETTING",

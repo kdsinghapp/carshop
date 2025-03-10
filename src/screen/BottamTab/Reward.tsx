@@ -30,19 +30,19 @@ const Reward: React.FC<Props> = ({ navigation }) => {
     const [searchQuery, setSearchQuery] = useState('');
     return (
         <View style={styles.container}>
-         <CustomHeader
-title='Redeem'
-navigation={navigation}
-         />
+            <CustomHeader
+                title='Redeem'
+                navigation={navigation}
+            />
             <ScrollView showsVerticalScrollIndicator={false}
-             contentContainerStyle={styles.scrollContent}>
-            
-            
-               <View>
+                contentContainerStyle={styles.scrollContent}>
 
-                <ScratchCardList data={shopList} navigation={navigation} />
-               </View>
-               
+
+                <View>
+
+                    <ScratchCardList data={shopList} navigation={navigation} />
+                </View>
+
             </ScrollView>
         </View>
     );
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.baground,
-        paddingTop: 30,
+
     },
     scrollContent: {
         marginTop: 30,

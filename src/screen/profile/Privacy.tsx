@@ -1,6 +1,6 @@
 
     import React from 'react';
-    import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
+    import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, StatusBar } from 'react-native';
     import { useNavigation } from '@react-navigation/native';
     import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
     import { color } from '../../constant';
@@ -12,11 +12,14 @@
     
         return (
             <View style={styles.container}>
-           <CustomHeader  title='Privacy Policy'  navigation={navigation} />
+                <StatusBar
+backgroundColor={'#fff'}
+                />
+           <CustomHeader  title='Privacy Policy'  navigation={navigation} style={{marginTop:0}} />
     
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
                     {/* Image */}
-                    <Image source={images.about} style={styles.image} resizeMode="contain" />
+                    <Image source={images.Privacy2x} style={styles.image} resizeMode="contain" />
     
                     {/* Section: App About Details */}
                     <Text style={styles.sectionTitle}>Privacy Policy</Text>

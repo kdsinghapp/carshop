@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -22,20 +23,20 @@ interface ProfileMenuItem {
     screen: string;
 }
 
-const Profile: React.FC<Props> = ({ navigation }) => {
+const CompanyProfile: React.FC<Props> = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
             <Text style={styles.headerText}>Profile</Text>
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
                 <ProfileMenuList data={profileData} />
-               
+
             </ScrollView>
         </View>
     );
 };
 
-export default Profile;
+export default CompanyProfile;
 
 // Profile menu list data
 const profileData: ProfileMenuItem[] = [
@@ -43,48 +44,28 @@ const profileData: ProfileMenuItem[] = [
         id: 1,
         title: 'Profile',
         icon: icon.EditProfile,
-        screen: ScreenNameEnum.EDIT_PROFILE,
+        screen: ScreenNameEnum.ProfileScreen,
     },
     {
         id: 2,
-        title: 'Manage Address',
-        icon: icon.ManageAddress,
-        screen: ScreenNameEnum.ManageAddress,
+        title: 'Notification',
+        icon: icon.noti,
+        screen: ScreenNameEnum.NotificationSetting,
     },
+
+   
+
     {
         id: 3,
-        title: 'Change Password',
-        icon: icon.ChangePassword,
-        screen: ScreenNameEnum.CHANGE_PASSWORD
+        title: 'Support',
+        icon: icon.About2,
+        screen: ScreenNameEnum.SupportScreen
     },
     {
         id: 4,
-        title: 'Payment Methods',
-        icon: icon.Payment,
-        screen:ScreenNameEnum.PaymentMethods
-    },
-    {
-        id: 4,
-        title: 'My Booking',
-        icon: icon.MyBooking,
-        screen:ScreenNameEnum.MyBookings
-    },
-    {
-        id: 4,
-        title: 'My Wallet',
-        icon: icon.Wallet,
-        screen:ScreenNameEnum.Wallet
-    },{
-        id: 4,
-        title: 'Promo codes',
-        icon: icon.PromoCode,
-        screen:ScreenNameEnum.Reward
-    },
-    {
-        id: 5,
-        title: 'Help Center',
-        icon: icon.HelpCenter,
-        screen: ScreenNameEnum.HelpCenter
+        title: 'About Us',
+        icon: icon.iCon2,
+        screen: ScreenNameEnum.PaymentMethods
     },
     {
         id: 5,
@@ -113,6 +94,6 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
     scrollContent: {
-        marginTop:20,
+        marginTop: 20,
     },
 });

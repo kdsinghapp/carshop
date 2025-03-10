@@ -8,13 +8,14 @@ import { color } from '../constant';
 interface CustomHeaderProps {
     navigation: StackNavigationProp<any, any>;
     title: string;
+    style:any;
     showSkip?: boolean; // Default is false
     onSkipPress?: () => void;
 }
 
-const CustomHeader: React.FC<CustomHeaderProps> = ({ navigation, title, showSkip = false, onSkipPress }) => {
+const CustomHeader: React.FC<CustomHeaderProps> = ({ navigation, title, showSkip = false, onSkipPress,style }) => {
     return (
-        <View style={styles.container}>
+        <View style={[styles.container,style]}>
             {/* Back Button */}
             <TouchableOpacity
             
@@ -45,8 +46,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingHorizontal: 15,
+        paddingHorizontal:5,
         paddingVertical:0,
+        marginTop:30
         
     },
     backButton: {

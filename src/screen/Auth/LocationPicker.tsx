@@ -35,8 +35,9 @@ const LocationPicker: React.FC = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={{
-                height: hp(8), backgroundColor: '#fff',
-                marginTop: 40,
+                paddingVertical:5,
+                height: hp(11), backgroundColor: '#fff',
+
                 width: wp(100)
             }}>
 
