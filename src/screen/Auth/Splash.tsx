@@ -24,8 +24,11 @@ const Splash: React.FC = () => {
 
     return (
         <View style={styles.container}>
+              <StatusBar
+                backgroundColor={'#fff'}
+            />
             <SafeAreaView>
-                <StatusBar backgroundColor={color.baground} />
+                
                 <Image source={images.logo} style={styles.logo} resizeMode="contain" />
             </SafeAreaView>
         </View>

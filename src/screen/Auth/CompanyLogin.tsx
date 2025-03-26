@@ -38,7 +38,7 @@
     
         const handleSubmit = () => {
            
-                navigation.navigate(ScreenNameEnum.LocationAccessScreen);
+            navigation.navigate(ScreenNameEnum.BOTTAM_TAB);
            
         };
     

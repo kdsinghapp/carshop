@@ -14,7 +14,9 @@ const ProfileScreen: React.FC = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-      <CustomHeader navigation={navigation} title='Edit Profile' showSkip={false}  style={{marginTop:0}}/>
+      <CustomHeader
+       seconfImg={true}
+      seconfImg={true} navigation={navigation} title='Edit Profile' showSkip={false}  style={{marginTop:0}}/>
 
             <View style={styles.profileImageContainer}>
                 <Image source={icon.profileUpdate} style={styles.profileImage} />

@@ -15,7 +15,9 @@ const Aboutus: React.FC = ({ }) => {
             <StatusBar
                 backgroundColor={'#fff'}
             />
-            <CustomHeader title='About Us' navigation={navigation} style={{ marginTop: 0 }} />
+            <CustomHeader 
+             seconfImg={true}
+            title='About Us' navigation={navigation} style={{ marginTop: 0 }} />
 
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
                 {/* Image */}

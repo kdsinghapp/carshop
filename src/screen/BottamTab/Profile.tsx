@@ -28,6 +28,8 @@ const Profile: React.FC<Props> = ({ navigation }) => {
         <View style={styles.container}>
             <Text style={styles.headerText}>Profile</Text>
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+
+              
                 <ProfileMenuList data={profileData} />
                
             </ScrollView>

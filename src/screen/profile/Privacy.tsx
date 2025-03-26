@@ -15,7 +15,9 @@
                 <StatusBar
 backgroundColor={'#fff'}
                 />
-           <CustomHeader  title='Privacy Policy'  navigation={navigation} style={{marginTop:0}} />
+           <CustomHeader 
+            seconfImg={true}
+           title='Privacy Policy'  navigation={navigation} style={{marginTop:0}} />
     
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
                     {/* Image */}

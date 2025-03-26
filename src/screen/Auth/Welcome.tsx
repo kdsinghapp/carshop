@@ -20,8 +20,9 @@ const Welcome: React.FC = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-
+     <StatusBar
+                backgroundColor={'#fff'}
+            />
             <ImageBackground source={images.welcome} style={styles.imageBackground} />
 
             <View style={styles.textContainer}>

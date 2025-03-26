@@ -1,6 +1,16 @@
 
 const images = {
+  frame: require('../assets/images/frame.png'),
+  carcare: require('../assets/icons/carcare.png'),
+  arrowdown: require('../assets/icons/arrowdown.png'),
+  addpluse: require('../assets/images/addpluse.png'),
+  BackNavs1: require('../assets/images/BackNavs1.png'),
+  cloack: require('../assets/images/cloack.png'),
+  doc: require('../assets/images/doc.png'),
+  list: require('../assets/images/list.png'),
   tyer: require('../assets/images/tyer.png'),
+  admindp: require('../assets/images/admindp.png'),
+  dp: require('../assets/images/dp.png'),
   downside: require('../assets/icons/downside.png'),
   upside: require('../assets/icons/upside.png'),
   review: require('../assets/icons/review.png'),
@@ -37,10 +47,20 @@ const images = {
   bookmark: require('../assets/images/bookmark.png'),
   debit2x: require('../assets/images/debit2x.png'),
   credit2x: require('../assets/images/credit2x.png'),
+  admin: require('../assets/images/admin.png'),
 };
 const icon = {
 
+  redtras: require('../assets/icons/redtras.png'),
+  eyes: require('../assets/icons/eye.png'),
+  edit: require('../assets/icons/edit.png'),
+  message: require('../assets/icons/message.png'),
+  Upload: require('../assets/icons/Upload.png'),
+  closecircle: require('../assets/icons/closecircle.png'),
+  call: require('../assets/icons/call.png'),
+  tickcircle: require('../assets/icons/tickcircle.png'),
   box: require('../assets/icons/box.png'),
+  hr: require('../assets/images/hr.png'),
   supporta: require('../assets/icons/supporta.png'),
   raincar: require('../assets/icons/raincar.png'),
   leftars: require('../assets/icons/leftars.png'),

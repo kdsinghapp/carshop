@@ -9,18 +9,19 @@ interface CustomHeaderProps {
     navigation: StackNavigationProp<any, any>;
     title: string;
     style:any;
+    seconfImg:boolean;
     showSkip?: boolean; // Default is false
     onSkipPress?: () => void;
 }
 
-const CustomHeader: React.FC<CustomHeaderProps> = ({ navigation, title, showSkip = false, onSkipPress,style }) => {
+const CustomHeader: React.FC<CustomHeaderProps> = ({ navigation, title,seconfImg, showSkip = false, onSkipPress,style }) => {
     return (
         <View style={[styles.container,style]}>
             {/* Back Button */}
             <TouchableOpacity
             
             onPress={() => navigation.goBack()} style={styles.backButton}>
-                <Icon source={images.BackNavs2} size={30} />
+                <Icon source={seconfImg?images.BackNavs1:images.BackNavs2} size={30} />
             </TouchableOpacity>
 
             {/* Title */}

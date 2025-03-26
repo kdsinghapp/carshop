@@ -63,7 +63,9 @@ const EditProfile: React.FC<ProfileDetailsProps> = ({ navigation }) => {
         <View style={{ flex: 1, backgroundColor: color.baground }}>
             <SafeAreaView>
                 {/* Header */}
-                <CustomHeader navigation={navigation} title='Edit Profile' showSkip={false} />
+                <CustomHeader
+                 seconfImg={true}
+                navigation={navigation} title='Edit Profile' showSkip={false} />
 
                 {/* Profile Image Section */}
                 <View style={styles.profileImageContainer}>

@@ -56,6 +56,32 @@ import ProfileScreen from "../screen/company/ProfileScreen";
 import NotificationSetting from "../screen/company/NotificationSetting";
 import SupportScreen from "../screen/company/SupportScreen";
 import Aboutus from "../screen/company/Aboutus";
+import AdminDashboard from "../screen/profile/AdminDashboard";
+import OvertimeHours from "../screen/Feature/OvertimeHours";
+import OvertimeEmploye from "../screen/Feature/OvertimeEmploye";
+import EmployeeTasks from "../screen/Feature/EmployeeTasks";
+import TotallyTask from "../screen/Feature/TotallyTask";
+import AdminProjects from "../screen/Feature/AdminProjects";
+import HRMenu from "../screen/Feature/HRMenu";
+import EmployeeList from "../screen/Feature/hr/EmployeeList";
+import EmployeeProfile from "../screen/Feature/hr/EmployeeProfile";
+import AddEmployeeForm from "../screen/Feature/hr/AddEmployeeForm";
+import EmployeeGrid from "../screen/Feature/hr/EmployeeGrid";
+import HrProjects from "../screen/Feature/hr/HrProjects";
+import AddProjectForm from "../screen/Feature/hr/AddProjectForm";
+import HrTask from "../screen/Feature/hr/HrTask";
+import AddTaskForm from "../screen/Feature/hr/AddTaskForm";
+import EmployeeAttendance from "../screen/Feature/hr/EmployeeAttendance";
+import HrLeave from "../screen/Feature/hr/HrLeave";
+import AddLeaveScreen from "../screen/Feature/hr/AddLeaveScreen";
+import ShirftSchedule from "../screen/Feature/hr/ShirftSchedule";
+import AddNewShiftScreen from "../screen/Feature/hr/AddNewShiftScreen";
+import OverTime from "../screen/Feature/hr/OverTime";
+import AddOvertimeScreen from "../screen/Feature/hr/AddOvertimeScreen";
+import HolidayListScreen from "../screen/Feature/hr/HolidayListScreen";
+import AddHolidayForm from "../screen/Feature/hr/AddHolidayForm";
+import RequestLeave from "../screen/Feature/hr/RequestLeave";
+import AddLeaveRequestForm from "../screen/Feature/hr/AddLeaveRequestForm";
 
 const _routes = {
   REGISTRATION_ROUTE: [
@@ -226,6 +252,111 @@ const _routes = {
     {
       name: ScreenNameEnum.Aboutus,
       Component: Aboutus,
+    },
+    {
+      name: ScreenNameEnum.AdminDashboard,
+      Component: AdminDashboard,
+    },
+    {
+      name: ScreenNameEnum.OvertimeHours,
+      Component: OvertimeHours,
+    },
+    {
+      name: ScreenNameEnum.OvertimeEmploye,
+      Component: OvertimeEmploye,
+    },
+    {
+      name: ScreenNameEnum.EmployeeTasks,
+      Component: EmployeeTasks,
+    },
+    {
+      name: ScreenNameEnum.TotallyTask,
+      Component: TotallyTask,
+    },
+
+    {
+      name: ScreenNameEnum.AdminProjects,
+      Component: AdminProjects,
+    },
+    {
+      name: ScreenNameEnum.HRMenu,
+      Component: HRMenu,
+    },
+    {
+      name: ScreenNameEnum.EmployeeList,
+      Component: EmployeeList,
+    },
+    {
+      name: ScreenNameEnum.EmployeeProfile,
+      Component: EmployeeProfile,
+    },
+    {
+      name: ScreenNameEnum.AddEmployeeForm,
+      Component: AddEmployeeForm,
+    },
+    {
+      name: ScreenNameEnum.EmployeeGrid,
+      Component: EmployeeGrid,
+    },
+    {
+      name: ScreenNameEnum.HrProjects,
+      Component: HrProjects,
+    },
+    {
+      name: ScreenNameEnum.AddProjectForm,
+      Component: AddProjectForm,
+    },
+    {
+      name: ScreenNameEnum.HrTask,
+      Component: HrTask,
+    },
+    {
+      name: ScreenNameEnum.AddTaskForm,
+      Component: AddTaskForm,
+    },
+    {
+      name: ScreenNameEnum.EmployeeAttendance,
+      Component: EmployeeAttendance,
+    },
+    {
+      name: ScreenNameEnum.HrLeave,
+      Component: HrLeave,
+    },
+    {
+      name: ScreenNameEnum.AddLeaveScreen,
+      Component: AddLeaveScreen,
+    },
+    {
+      name: ScreenNameEnum.ShirftSchedule,
+      Component: ShirftSchedule,
+    },
+    {
+      name: ScreenNameEnum.AddNewShiftScreen,
+      Component: AddNewShiftScreen,
+    },
+    {
+      name: ScreenNameEnum.OverTime,
+      Component: OverTime,
+    },
+    {
+      name: ScreenNameEnum.AddOvertimeScreen,
+      Component: AddOvertimeScreen,
+    },
+    {
+      name: ScreenNameEnum.HolidayListScreen,
+      Component: HolidayListScreen,
+    },
+    {
+      name: ScreenNameEnum.AddHolidayForm,
+      Component: AddHolidayForm,
+    },
+    {
+      name: ScreenNameEnum.RequestLeave,
+      Component: RequestLeave,
+    },
+    {
+      name: ScreenNameEnum.AddLeaveRequestForm,
+      Component: AddLeaveRequestForm,
     },
 
 

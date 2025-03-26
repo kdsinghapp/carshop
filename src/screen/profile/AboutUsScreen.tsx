@@ -11,7 +11,9 @@ const AboutUsScreen: React.FC = ({}) => {
 
     return (
         <View style={styles.container}>
-       <CustomHeader  title='About Us'  navigation={navigation} />
+       <CustomHeader 
+        seconfImg={true}
+       title='About Us'  navigation={navigation} />
 
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
                 {/* Image */}

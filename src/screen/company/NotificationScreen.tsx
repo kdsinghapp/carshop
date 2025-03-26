@@ -80,7 +80,7 @@ const NotificationScreen: React.FC = ({ navigation }) => {
         backgroundColor={'#fff'}
       />
       <CustomHeader
-
+ seconfImg={true}
         title="Notification"
         navigation={navigation}
 

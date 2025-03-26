@@ -25,6 +25,7 @@ const NotificationSetting: React.FC = ({ navigation }) => {
                 showSkip={false}
                 style={{marginTop:0}}
                 navigation={navigation}
+                seconfImg={true}
             />
 
 

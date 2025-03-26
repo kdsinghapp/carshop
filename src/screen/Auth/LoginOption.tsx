@@ -1,6 +1,6 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Text,
     View,
@@ -13,6 +13,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { wp } from '../../component/utils/Constant';
 import ScreenNameEnum from '../../routes/screenName.enum';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 // Define navigation prop type
 type RootStackParamList = {
@@ -37,6 +38,11 @@ const LoginOption: React.FC = () => {
             navigation.navigate(ScreenNameEnum.COMPANY_LOGIN);
         }
     };
+
+
+
+
+
 
     return (
         <View style={styles.container}>

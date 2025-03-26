@@ -11,7 +11,9 @@ const SupportScreen: React.FC = ({ navigation }) => {
         <View style={styles.container}>
             {/* Header */}
 
-            <CustomHeader title='Support' navigation={navigation} style={{ marginTop: 0 }} />
+            <CustomHeader 
+             seconfImg={true}
+            title='Support' navigation={navigation} style={{ marginTop: 0 }} />
 
 
             <View style={{ flex: 1, padding: 20 }}>
