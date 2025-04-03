@@ -1,8 +1,11 @@
 import React from "react";
 import { View, Text, FlatList, Image, TextInput, StyleSheet, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
+
 import SearchBar from "../../component/SearchBar";
 import ScreenNameEnum from "../../routes/screenName.enum";
+import CustomHeader from "../../component/CustomHeaderProps";
+import images from "../../component/Image";
+import Icon from "../../component/Icon";
 
 interface ChatItem {
     id: string;
@@ -57,8 +60,14 @@ const chatData: ChatItem[] = [
 const ChatList: React.FC = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            {/* Header */}
-            <View style={styles.header}>
+                <View style={styles.header}>
+                <TouchableOpacity
+            
+            onPress={() => navigation.goBack()} style={{}}>
+                <Image source={images.BackNavs1} style={{height:30,width:30,tintColor:'#fff'} } />
+            </TouchableOpacity>
+      
+        
                 <Text style={styles.headerTitle}>Chat</Text>
             </View>
 
@@ -108,11 +117,13 @@ export const styles = StyleSheet.create({
         padding: 20,
         paddingTop: 50,
         alignItems: "center",
+        flexDirection:'row'
     },
     headerTitle: {
         fontSize: 22,
         fontWeight: "bold",
         color: "#fff",
+        marginLeft:'37%'
     },
     searchContainer: {
         padding: 10

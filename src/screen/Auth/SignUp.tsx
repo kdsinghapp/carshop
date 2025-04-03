@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
     View,
@@ -7,226 +6,253 @@ import {
     SafeAreaView,
     StyleSheet,
     TouchableOpacity,
-    Image,
-    ImageBackground,
+    TextInput,
     ScrollView
 } from 'react-native';
-import images, { icon } from '../../component/Image';
-import { color } from '../../constant';
-import { hp, wp } from '../../component/utils/Constant';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import Icon from '../../component/Icon';
-import CustomButton from '../../component/CustomButton';
-import ScreenNameEnum from '../../routes/screenName.enum';
-import CustomTextInput from '../../component/TextInput';
+import { icon } from '../../component/Image';
 
-const SignUp: React.FC = ({ navigation }) => {
-    const [errors, setErrors] = useState({
-        identity: '',
+const SignUp: React.FC = () => {
+    const [selectedType, setSelectedType] = useState<'Private' | 'Company'>('Private');
+    const [formData, setFormData] = useState({
+        name: '',
+        phone: '',
+        email: '',
+        city: '',
         password: '',
+        confirmPassword: '',
+        companyName: '',
+        tradeNumber: '',
+        accountingEmail: ''
     });
-    const [identity, setIdentity] = useState('');
-    const [password, setPassword] = useState('');
 
-    const validateFields = () => {
-        let newErrors = {
-            identity: identity ? '' : 'Identity is required',
-            password: password ? '' : 'Password is required',
-        };
-
-        setErrors(newErrors);
-        return Object.values(newErrors).every(error => error === '');
-    };
-
-    const handleSubmit = () => {
-        if (validateFields()) {
-            navigation.navigate(ScreenNameEnum.PROFILE_DETAILS);
-        }
+    const handleInputChange = (key: string, value: string) => {
+        setFormData(prev => ({ ...prev, [key]: value }));
     };
 
     return (
-        <View style={styles.container}>
-            <SafeAreaView>
-                <StatusBar backgroundColor={color.baground} />
-                <ScrollView>
-                    {/* Logo */}
-                    <View style={styles.logoContainer}>
-                        <Image source={images.logo} style={styles.logo} resizeMode="contain" />
-                    </View>
+        <SafeAreaView style={styles.container}>
+            <StatusBar barStyle="dark-content" />
+            <ScrollView contentContainerStyle={styles.scrollView}>
+                <Text style={styles.logo}>LOGO</Text>
+                <Text style={styles.title}>Create Account</Text>
+                <Text style={styles.subtitle}>Fill your information below or register with your social account</Text>
 
-                    {/* Input Fields */}
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.welcomeText}>Create Account</Text>
-                        <Text style={styles.labelText}>Fill your information below or register with your social account</Text>
+                {/* Toggle Buttons */}
+                <View style={styles.toggleContainer}>
+                    <TouchableOpacity
+                        style={[styles.toggleButton, selectedType === 'Private' && styles.activeButton]}
+                        onPress={() => setSelectedType('Private')}
+                    >
+                        <Text style={[styles.toggleText, selectedType === 'Private' && styles.activeText]}>Private</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.toggleButton, selectedType === 'Company' && styles.activeButton]}
+                        onPress={() => setSelectedType('Company')}
+                    >
+                        <Text style={[styles.toggleText, selectedType === 'Company' && styles.activeText]}>Company</Text>
+                    </TouchableOpacity>
+                </View>
 
-                        <CustomTextInput
-                            placeholder='Name'
-                            onChangeText={setIdentity}
-                            value={identity}
-                            inputStyle={[styles.input, errors.identity && styles.errorInput]}
-                            firsticon={true}
-                            icons={icon.profile}
-                        />
-                        <CustomTextInput
-                            placeholder='Phone No.'
-                            onChangeText={setIdentity}
-                            value={identity}
-                            inputStyle={[styles.input, errors.identity && styles.errorInput]}
-                            firsticon={true}
-                            icons={icon.mobile}
-                        />
-                        <CustomTextInput
-                            placeholder='Email'
-                            onChangeText={setIdentity}
-                            value={identity}
-                            inputStyle={[styles.input, errors.identity && styles.errorInput]}
-                            firsticon={true}
-                            icons={icon.email}
-                        />
-                        <CustomTextInput
-                            placeholder='City'
-                            onChangeText={setIdentity}
-                            value={identity}
-                            inputStyle={[styles.input, errors.identity && styles.errorInput]}
-                            firsticon={true}
-                            icons={icon.mobile}
-                        />
-                        <CustomTextInput
-                            placeholder='Password'
-                            onChangeText={setPassword}
-                            value={password}
-                            inputStyle={[styles.input, errors.password && styles.errorInput]}
-                            firsticon={true}
-                            lasticon={true}
-                            icons={icon.lock}
-                        />
+                {/* Input Fields */}
+                {selectedType === 'Private' ? (
+                    <>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.profile}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
 
-                        <CustomTextInput
-                            placeholder='Confirm Password'
-                            onChangeText={setPassword}
-                            value={password}
-                            inputStyle={[styles.input, errors.password && styles.errorInput]}
-                            firsticon={true}
-                            lasticon={true}
-                            icons={icon.lock}
-                        />
-
-
-                        {/* Login Button */}
-                        <CustomButton
-                            title="Sign Up"
-                            onPress={handleSubmit}
-                            buttonStyle={styles.button}
-                        />
-
-                        <View style={styles.signupContainer}>
-                            <Text style={styles.signupText}>Don you have an account? </Text>
-                            <TouchableOpacity>
-                                <Text style={styles.signupLink}>Login</Text>
-                            </TouchableOpacity>
+                            />
+                            <TextInput style={styles.input} placeholder="Name" onChangeText={(text) => handleInputChange('name', text)} />
                         </View>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.mobile}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
 
-                   
-                    </View>
-                </ScrollView>
-            </SafeAreaView>
-        </View>
+                            />
+                            <TextInput style={styles.input} placeholder="Phone No." onChangeText={(text) => handleInputChange('phone', text)} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.email}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
+
+                            />
+                            <TextInput style={styles.input} placeholder="Email Address" onChangeText={(text) => handleInputChange('email', text)} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.building4}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
+
+                            />
+                            <TextInput style={styles.input} placeholder="City" onChangeText={(text) => handleInputChange('city', text)} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.lock}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
+
+                            />
+                            <TextInput style={styles.input} placeholder="Password" secureTextEntry onChangeText={(text) => handleInputChange('password', text)} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.lock}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
+
+                            />
+                            <TextInput style={styles.input} placeholder="Confirm Password" secureTextEntry onChangeText={(text) => handleInputChange('confirmPassword', text)} />
+                        </View>
+                    </>
+                ) : (
+                    <>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.profile}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
+
+                            />
+                            <TextInput style={styles.input} placeholder="Company Name" onChangeText={(text) => handleInputChange('companyName', text)} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.office}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
+
+                            />
+                            <TextInput style={styles.input} placeholder="Trade Number" onChangeText={(text) => handleInputChange('tradeNumber', text)} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.email}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
+
+                            />
+                            <TextInput style={styles.input} placeholder="Accounting Email" onChangeText={(text) => handleInputChange('accountingEmail', text)} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.mobile}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
+
+                            />
+                            <TextInput style={styles.input} placeholder="Phone No." onChangeText={(text) => handleInputChange('phone', text)} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.lock}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
+
+                            />
+                            <TextInput style={styles.input} placeholder="Password" secureTextEntry onChangeText={(text) => handleInputChange('password', text)} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.lock}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
+
+                            />
+                            <TextInput style={styles.input} placeholder="Confirm Password" secureTextEntry onChangeText={(text) => handleInputChange('confirmPassword', text)} />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Icon source={icon.building4}
+                                size={20}
+                                style={{
+                                    tintColor: 'grey'
+                                }}
+
+                            />
+
+                            <TextInput style={styles.input} placeholder="City" onChangeText={(text) => handleInputChange('city', text)} />
+                        </View>
+                    </>
+                )}
+
+                {/* Sign Up Button */}
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Sign Up</Text>
+                </TouchableOpacity>
+
+                {/* Login Redirect */}
+                <View style={styles.loginRedirect}>
+                    <Text style={styles.loginText}>Already have an account? </Text>
+                    <TouchableOpacity>
+                        <Text style={styles.loginLink}>Sign Up</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
-export default SignUp;
-
-// Styles
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: color.baground,
-    },
-    logoContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: hp(5),
-    },
-    logo: {
-        height: 120,
-        width: 120,
-    },
     inputContainer: {
-        paddingHorizontal: 25,
-        marginTop: hp(5),
-    },
-    welcomeText: {
-        fontWeight: '800',
-        fontSize: 30,
-        color: '#000',
-        textAlign: 'center',
-        marginBottom: 10,
-    },
-    labelText: {
-        fontWeight: '400',
-        fontSize: 16,
-        color: '#9DB2BF',
-        textAlign: 'center',
-        marginBottom: 20,
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: '#fff',
-        borderRadius: 15,
-        padding: 10,
-        color: '#000',
-        marginBottom: 10,
-    },
-    errorInput: {
-        borderColor: 'red',
-    },
-    forgotPassword: {
+        flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 10,
+        backgroundColor: '#F7F8F8',
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        height: 60,
+        width: '100%',
+        marginTop: 10
     },
-    forgotText: {
-        color: '#0063FF',
-        fontWeight: '600',
-        borderBottomWidth: 0.5,
-        borderColor: '#0063FF',
-        paddingVertical: 2,
+    container: { flex: 1, backgroundColor: '#fff' },
+    scrollView: { alignItems: 'center', padding: 20 },
+    logo: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
+    title: { fontSize: 22, fontWeight: 'bold', marginBottom: 5 },
+    subtitle: { fontSize: 14, color: '#9DB2BF', textAlign: 'center', marginBottom: 20 },
+    toggleContainer: {
+        flexDirection: 'row',
+        marginBottom: 15, borderRadius: 10, padding: 5
+    },
+    toggleButton: {
+        flex: 1, backgroundColor: '#f0f0f0',
+        alignItems: 'center', paddingVertical: 10, borderRadius: 30, marginRight: 5
+    },
+    activeButton: { backgroundColor: '#0063FF' },
+    toggleText: { fontSize: 16, color: '#555' },
+    activeText: { color: '#fff' },
+    input: {
+        width: '100%', padding: 12,
+
+        borderRadius: 8,
     },
     button: {
-        marginTop: 20,
+        backgroundColor: '#0063FF',
+        width: widthPercentageToDP(90),
+        padding: 15, borderRadius: 8, alignItems: 'center', marginTop: 10
     },
-    signupContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginVertical: 20,
-    },
-    signupText: {
-        color: '#909090',
-    },
-    signupLink: {
-        color: '#0063FF',
-        fontWeight: '800',
-        fontSize: 16,
-    },
-    bubbleBackground: {
-        height: hp(25),
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20,
-    },
-    orText: {
-        fontSize: 16,
-        color: '#000',
-        fontWeight: '500',
-        marginBottom: 10,
-    },
-    googleLogin: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        alignSelf: 'center',
-        marginTop: 10,
-    },
-    googleText: {
-        fontWeight: '500',
-        fontSize: 18,
-        marginLeft: 15,
-    },
+    buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
+    loginRedirect: { flexDirection: 'row', marginTop: 15 },
+    loginText: { color: '#909090' },
+    loginLink: { color: '#0063FF', fontWeight: 'bold' }
 });
+
+export default SignUp;

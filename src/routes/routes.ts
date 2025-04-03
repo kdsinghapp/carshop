@@ -359,6 +359,15 @@ const _routes = {
       Component: AddLeaveRequestForm,
     },
 
+    {
+      name: ScreenNameEnum.CHAT_SCREEN,
+      Component: ChatList,
+
+    },
+    {
+      name: ScreenNameEnum.PROFILE_SCREEN,
+      Component: Profile,
+    },
 
 
   ],
@@ -390,26 +399,13 @@ const _routes = {
       logo: images.bookmark,
       lable: 'Bookmark'
     },
-    {
-      name: ScreenNameEnum.CHAT_SCREEN,
-      Component: ChatList,
-      active: icon.messages,
-      logo: icon.messages,
-      lable: 'Chat'
-    },
+ 
     {
       name: ScreenNameEnum.PriceGuide,
       Component: PriceGuide,
       active: icon.PriceGuide,
       logo: icon.PriceGuide,
       lable: 'PriceGuide'
-    },
-    {
-      name: ScreenNameEnum.PROFILE_SCREEN,
-      Component: Profile,
-      active: icon.user,
-      logo: icon.user,
-      lable: 'Profile'
     },
 
 

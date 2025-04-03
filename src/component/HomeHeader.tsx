@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { icon } from './Image';
 import { color } from '../constant';
+import ScreenNameEnum from '../routes/screenName.enum';
 
 
 interface HomeHeaderProps {
@@ -33,9 +34,21 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             </View>
             {/* Divider */}
             <View style={{flexDirection:'row',alignItems:'center'}}>
+            <TouchableOpacity onPress={()=>{
+                navigation.navigate(ScreenNameEnum.PROFILE_SCREEN)
+            }}
+             style={styles.box}>
             <Image source={icon.user}
                 resizeMode='contain'
-                style={{height:30,width:30,marginRight:5}} />
+                style={{height:25,width:25,}} />
+                </TouchableOpacity>
+            <TouchableOpacity onPress={()=>{
+                navigation.navigate(ScreenNameEnum.CHAT_SCREEN)
+            }}   style={styles.box}>
+            <Image source={icon.chats}
+                resizeMode='contain'
+                style={{height:40,width:40,}} />
+                </TouchableOpacity>
 
             {/* Notification Icon */}
             <TouchableOpacity onPress={onNotificationPress} style={styles.notificationContainer}>
@@ -50,6 +63,16 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 };
 
 const styles = StyleSheet.create({
+    box:{
+
+        borderWidth:1,
+        borderColor:'#fff',
+        borderRadius:10,
+        height:40,width:40,
+        alignItems:'center',
+        justifyContent:'center',
+        marginRight:5,
+    },
     container: {
         flexDirection: 'row',
         alignItems: 'center',

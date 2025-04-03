@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { color } from '../../constant';
 import { icon } from '../../component/Image';
 import ProfileMenuList from '../../component/ProfileList';
 import ScreenNameEnum from '../../routes/screenName.enum';
 import LogoutModal from '../modal/LogoutModal';
+import Icon from '../../component/Icon';
+import CustomHeader from '../../component/CustomHeaderProps';
 
 // Define navigation type
 type RootStackParamList = {
@@ -26,7 +28,12 @@ const Profile: React.FC<Props> = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.headerText}>Profile</Text>
+     <CustomHeader
+                    seconfImg={true}
+                    navigation={navigation} title="Profile"
+                     showSkip={false} 
+                     style={{ }} />
+
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
 
               
