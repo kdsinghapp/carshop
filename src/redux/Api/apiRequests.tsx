@@ -2,7 +2,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 import { endpoint } from './endpoints';
-import { successToast } from '../../configs/customToast';
+import { errorToast, successToast } from '../../configs/customToast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { callMultipleApis } from './index';
 
@@ -15,27 +15,106 @@ interface ApiRequest {
     token?: string; // Optional Auth Token (per request)
 }
 
-const Login_witPhone = async (phoneNumber: string,device_token:string) => {
 
-    console.log('====================================');
-    console.log(phoneNumber);
-    console.log('====================================');
+const send_Otp = async (email: string) => {
     // Prepare the request body for login API
-    const requestBody = { phone: phoneNumber ,device_token};
+
+    console.log('========endpoint.sendotp+email,============================');
+    console.log(endpoint.sendotp + email,);
+    console.log('====================================');
+    const apiRequests: ApiRequest[] = [
+        {
+            endpoint: endpoint.sendotp + email,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+        console.log('API Response:', results);
+
+
+        const response = results[0];
+
+        console.log('==================response.status==================');
+        console.log(response.status);
+        console.log('====================================');
+        if (response.status) {
+
+            successToast("Otp Resent Successfully")
+
+            return { success: true, message: "OTP sent", user: email || null };
+        }
+        else {
+            return { success: false, message: "Unexpected response", user: null };
+
+        }
+
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, user: null };
+    }
+};
+const register = async (body: any) => {
+    // Prepare the request body for login API
+
+    const apiRequests: ApiRequest[] = [
+        {
+            endpoint: endpoint.register,
+            method: 'POST',
+            data: body,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+        console.log('API Response:', results);
+
+
+        const response = results[0];
+
+
+        if (response.status) {
+
+            successToast(response?.message)
+            await AsyncStorage.setItem('token', response?.token)
+            return { success: true, message: response?.message, user: response.user || null };
+
+        }
+        else {
+            errorToast(response?.message)
+
+            return { success: false, message: "Unexpected response", user: null };
+        }
+
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, user: null };
+    }
+};
+const login = async (body: any) => {
+    // Prepare the request body for login API
 
     const apiRequests: ApiRequest[] = [
         {
             endpoint: endpoint.login,
             method: 'POST',
-            data: requestBody,
+            data: body,
             headers: {
                 'Content-Type': 'application/json',
             },
         },
     ];
-
-    console.log(apiRequests);
-
 
     try {
         // Call the multiple APIs and await the result
@@ -46,35 +125,81 @@ const Login_witPhone = async (phoneNumber: string,device_token:string) => {
         const response = results[0];
 
 
-        if (response.success) {
-            if (response.message === "OTP sent to your mobile.") {
-                successToast(response.message)
-                console.log("OTP sent to user.");
-                return { success: true, message: "OTP sent", user: response.user || null };
-            } else if (response.message === "User created and OTP sent to your mobile.") {
-                successToast(response.message)
-                console.log("User created and OTP sent.");
-                return { success: true, message: "User created", user: response.user || null };
-            }
+        if (response.status) {
+
+            successToast(response?.message)
+            await AsyncStorage.setItem('token', response?.token)
+            return { success: true, message: response?.message, user: response.user || null };
+
         }
-        return { success: false, message: "Unexpected response", user: null };
+        else {
+            errorToast(response?.message)
+
+            return { success: false, message: "Unexpected response", user: null };
+        }
+
 
     } catch (error) {
         console.error('Error fetching data:', error);
         return { success: false, message: error.message, user: null };
     }
 };
-const resend_Otp = async (phoneNumber: string) => {
+const otp_Verify = async (email: string, otp: string,) => {
     // Prepare the request body for login API
-    const requestBody = { phone: phoneNumber };
+    const requestBody = { email, otp };
+
+    console.log('================endpoint.verifyotp+`email=${email}&otp=${otp}`,====================');
+    console.log(endpoint.verifyotp+`email=${email}&otp=${otp}`,);
+    console.log('====================================');
+    const apiRequests: ApiRequest[] = [
+        {
+            endpoint: endpoint.verifyotp+`email=${email}&otp=${otp}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+        console.log('API Response:', results);
+
+
+        const response = results[0];
+
+
+        if (response.status) {
+           
+
+                await AsyncStorage.setItem('token', response.token)
+                successToast("OTP verified successfully")
+
+                return { success: true, message: "OTP verified successfully", token: response.token };
+        }
+        
+        else  {
+            errorToast(response.message)
+            return { success: true, message: "User not found", token: null };
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, token: null };
+    }
+};
+
+const getcitylist = async () => {
+
 
     const apiRequests: ApiRequest[] = [
         {
-            endpoint: endpoint.resendOtp,
-            method: 'POST',
-            data: requestBody,
+
+            endpoint: endpoint.cities,
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+
             },
         },
     ];
@@ -82,39 +207,34 @@ const resend_Otp = async (phoneNumber: string) => {
     try {
         // Call the multiple APIs and await the result
         const results = await callMultipleApis(apiRequests);
-        console.log('API Response:', results);
-
 
         const response = results[0];
 
 
-        if (response.success) {
-            if (response.message === "OTP sent successfully") {
-                successToast("Otp Resent Successfully")
-
-                return { success: true, message: "OTP sent", user: response.user || null };
-            } else if (response.message === "User created and OTP sent to your mobile.") {
-                successToast(response.message)
-                console.log("User created and OTP sent.");
-                return { success: true, message: "User created", user: response.user || null };
-            }
+        if (response?.data) {
+            // successToast('Bike Remove Successfully')
+            return { success: true, message: "Success", data: response?.data, };
         }
-        return { success: false, message: "Unexpected response", user: null };
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
 
     } catch (error) {
         console.error('Error fetching data:', error);
-        return { success: false, message: error.message, user: null };
+        return { success: false, message: error.message, state: [] };
     }
 };
-const otp_Verify = async (phoneNumber: string, otp: string,) => {
-    // Prepare the request body for login API
-    const requestBody = { phone: phoneNumber, otp: otp, };
+
+const createpassword = async (body: any) => {
+console.log('=========createpassword===========================',body);
+
 
     const apiRequests: ApiRequest[] = [
         {
-            endpoint: endpoint.otpVerify,
+            endpoint: endpoint.setpassword,
             method: 'POST',
-            data: requestBody,
+            data: body,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -130,21 +250,19 @@ const otp_Verify = async (phoneNumber: string, otp: string,) => {
         const response = results[0];
 
 
-        if (response.success) {
-            if (response.message === "OTP verified successfully") {
+        if (response.status) {
 
-                await AsyncStorage.setItem('token', response.token)
-                successToast(response.message)
+            successToast(response?.message)
+        
+            return { success: true, message: response?.message, user: response.user || null };
 
-                return { success: true, message: "OTP verified successfully", user: response || null,isProfile:response?.isProfile };
-            } else if (response.message === "User not found") {
-                successToast(response.message)
-
-                await AsyncStorage.setItem('token', response.token)
-                return { success: true, message: "User not found", user: response.user || null };
-            }
         }
-        return { success: false, message: "Unexpected response", user: null };
+        else {
+            errorToast(response?.message)
+
+            return { success: false, message: "Unexpected response", user: null };
+        }
+
 
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -152,6 +270,4 @@ const otp_Verify = async (phoneNumber: string, otp: string,) => {
     }
 };
 
-
-
-export {  Login_witPhone,  otp_Verify,  resend_Otp, }  
+export { login, otp_Verify, send_Otp, getcitylist, register ,createpassword }  

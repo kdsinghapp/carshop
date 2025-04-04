@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
     View,
@@ -6,60 +5,67 @@ import {
     StatusBar,
     SafeAreaView,
     StyleSheet,
-    TouchableOpacity,
-    Image,
-    ImageBackground,
-    ScrollView
 } from 'react-native';
-import images, { icon } from '../../component/Image';
 import { color } from '../../constant';
 import { hp, wp } from '../../component/utils/Constant';
-import Icon from '../../component/Icon';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { createpassword } from '../../redux/Api/apiRequests';
 import CustomButton from '../../component/CustomButton';
-import ScreenNameEnum from '../../routes/screenName.enum';
 import CustomTextInput from '../../component/TextInput';
-import { useNavigation } from '@react-navigation/native';
+import { icon } from '../../component/Image';
 
-const CreatePassword: React.FC = ({  }) => {
-    const [errors, setErrors] = useState({
-        identity: '',
-        password: '',
-    });
-    const [identity, setIdentity] = useState('');
+const CreatePassword: React.FC = () => {
+    const route = useRoute();
+    const { token } = route.params;
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [errors, setErrors] = useState({ password: '', confirmPassword: '' });
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigation = useNavigation();
 
     const validateFields = () => {
         let newErrors = {
-            identity: identity ? '' : 'Identity is required',
             password: password ? '' : 'Password is required',
+            confirmPassword: confirmPassword ? '' : 'Confirm Password is required',
         };
+
+        if (password && confirmPassword && password !== confirmPassword) {
+            newErrors.confirmPassword = 'Passwords do not match';
+        }
 
         setErrors(newErrors);
         return Object.values(newErrors).every(error => error === '');
     };
-    const navigation =useNavigation()
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        console.log('==============handleSubmit======================');
  
-            navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
-      
+        if (!validateFields()) return;
+        
+        const body = {
+            password,
+            password_confirmation: confirmPassword,
+            token,
+        };
+        
+        try {
+            await createpassword(body);
+            navigation.navigate('LOGIN_SCREEN');
+        } catch (err) {
+            setErrorMessage(err.message || 'Something went wrong. Please try again.');
+        }
     };
 
     return (
         <View style={styles.container}>
             <SafeAreaView>
                 <StatusBar backgroundColor={color.baground} />
-
-                <View style={styles.logoContainer}>
-
-                </View>
-
-                {/* Input Fields */}
                 <View style={styles.inputContainer}>
                     <Text style={styles.welcomeText}>Create New Password</Text>
-                    <Text style={styles.labelText}>Your new password must be different from previous used passwords.</Text>
-
-
+                    <Text style={styles.labelText}>
+                        Your new password must be different from previous used passwords.
+                    </Text>
+                    {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
                     <CustomTextInput
                         placeholder='Password'
                         onChangeText={setPassword}
@@ -69,53 +75,34 @@ const CreatePassword: React.FC = ({  }) => {
                         lasticon={true}
                         icons={icon.lock}
                     />
-
+                              <Text style={{
+                        color:'red',fontSize:12,marginTop:5
+                    }}>{errors.confirmPassword}</Text>
                     <CustomTextInput
                         placeholder='Confirm Password'
-                        onChangeText={setPassword}
-                        value={password}
-                        inputStyle={[styles.input, errors.password && styles.errorInput]}
+                        onChangeText={setConfirmPassword}
+                        value={confirmPassword}
+                        inputStyle={[styles.input, errors.confirmPassword && styles.errorInput]}
                         firsticon={true}
                         lasticon={true}
                         icons={icon.lock}
                     />
-
-
-                    {/* Login Button */}
-
-
-
-
-
+                    <Text style={{
+                        color:'red',fontSize:12,marginTop:5
+                    }}>{errors.confirmPassword}</Text>
                 </View>
-
-
             </SafeAreaView>
-            <CustomButton
-                title="Save"
-                onPress={handleSubmit}
-                buttonStyle={styles.button}
-            />
+            <CustomButton title='Save' onPress={handleSubmit} buttonStyle={styles.button} />
         </View>
     );
 };
 
 export default CreatePassword;
 
-// Styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.baground,
-    },
-    logoContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: hp(5),
-    },
-    logo: {
-        height: 120,
-        width: 120,
     },
     inputContainer: {
         paddingHorizontal: 25,
@@ -146,58 +133,16 @@ const styles = StyleSheet.create({
     errorInput: {
         borderColor: 'red',
     },
-    forgotPassword: {
-        alignItems: 'center',
-        marginVertical: 10,
-    },
-    forgotText: {
-        color: '#0063FF',
-        fontWeight: '600',
-        borderBottomWidth: 0.5,
-        borderColor: '#0063FF',
-        paddingVertical: 2,
+    errorText: {
+        color: 'red',
+        textAlign: 'center',
+        marginBottom: 10,
     },
     button: {
         marginTop: 20,
         position: 'absolute',
         bottom: 20,
         width: wp(90),
-        alignSelf: 'center'
-    },
-    signupContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginVertical: 20,
-    },
-    signupText: {
-        color: '#909090',
-    },
-    signupLink: {
-        color: '#0063FF',
-        fontWeight: '800',
-        fontSize: 16,
-    },
-    bubbleBackground: {
-        height: hp(25),
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 20,
-    },
-    orText: {
-        fontSize: 16,
-        color: '#000',
-        fontWeight: '500',
-        marginBottom: 10,
-    },
-    googleLogin: {
-        flexDirection: 'row',
-        alignItems: 'center',
         alignSelf: 'center',
-        marginTop: 10,
-    },
-    googleText: {
-        fontWeight: '500',
-        fontSize: 18,
-        marginLeft: 15,
     },
 });

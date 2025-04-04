@@ -117,6 +117,7 @@ const icon = {
   eye: require('../assets/icons/eyehide.png'),
   leftblue: require('../assets/icons/leftblue.png'),
   heart: require('../assets/icons/heart.png'),
+  google: require('../assets/icons/Google2.png'),
 };
 export default images
 export { icon }

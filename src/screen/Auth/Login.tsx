@@ -7,44 +7,79 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    ImageBackground
+    ImageBackground,
+    Alert,
+    ActivityIndicator
 } from 'react-native';
 import images, { icon } from '../../component/Image';
 import { color } from '../../constant';
-import { hp, wp } from '../../component/utils/Constant';
+import { hp } from '../../component/utils/Constant';
 import Icon from '../../component/Icon';
 import CustomButton from '../../component/CustomButton';
 import ScreenNameEnum from '../../routes/screenName.enum';
 import CustomTextInput from '../../component/TextInput';
+import { login } from '../../redux/Api/apiRequests';
 
 const Login: React.FC = ({ navigation }) => {
+    const [identity, setIdentity] = useState('');
+    const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({
         identity: '',
         password: '',
     });
-    const [identity, setIdentity] = useState('');
-    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const validateFields = () => {
         let newErrors = {
-            identity: identity ? '' : 'Identity is required',
-            password: password ? '' : 'Password is required',
+            identity: '',
+            password: '',
         };
+
+        if (!identity) {
+            newErrors.identity = 'Identity is required';
+        } else if (!/^\S+@\S+\.\S+$/.test(identity) && isNaN(Number(identity))) {
+            newErrors.identity = 'Enter a valid email or phone number';
+        }
+
+        if (!password) {
+            newErrors.password = 'Password is required';
+        } else if (password.length < 6) {
+            newErrors.password = 'Password must be at least 6 characters';
+        }
 
         setErrors(newErrors);
         return Object.values(newErrors).every(error => error === '');
     };
 
-    const handleSubmit = () => {
-       
-            navigation.navigate(ScreenNameEnum.BOTTAM_TAB);
-       
+    const handleSubmit = async () => {
+        if (!validateFields()) return;
+
+        setLoading(true);
+        const body = {
+            email: identity,
+            password,
+        };
+
+        try {
+            const res = await login(body);
+
+            if (res?.success) {
+                navigation.navigate(ScreenNameEnum.BOTTAM_TAB);
+            } else {
+                Alert.alert('Login Failed', res?.message || 'Invalid credentials, please try again.');
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Something went wrong. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <View style={styles.container}>
             <SafeAreaView>
                 <StatusBar backgroundColor={color.baground} />
+                
                 {/* Logo */}
                 <View style={styles.logoContainer}>
                     <Image source={images.logo} style={styles.logo} resizeMode="contain" />
@@ -62,7 +97,10 @@ const Login: React.FC = ({ navigation }) => {
                         inputStyle={[styles.input, errors.identity && styles.errorInput]}
                         firsticon={true}
                         icons={icon.email}
+                        securitytxt={false}
                     />
+                    {errors.identity ? <Text style={styles.errorText}>{errors.identity}</Text> : null}
+
                     <CustomTextInput
                         placeholder='Password'
                         onChangeText={setPassword}
@@ -71,31 +109,30 @@ const Login: React.FC = ({ navigation }) => {
                         firsticon={true}
                         lasticon={true}
                         icons={icon.lock}
+                        securitytxt={true}
                     />
+                    {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
 
-                    <TouchableOpacity 
-                    
-                    onPress={()=>{
-                        navigation.navigate(ScreenNameEnum.FORGOT_PASSWORD)
-                    }}
-                    style={styles.forgotPassword}>
+                    <TouchableOpacity onPress={() => navigation.navigate(ScreenNameEnum.FORGOT_PASSWORD)} style={styles.forgotPassword}>
                         <Text style={styles.forgotText}>Forgot your password?</Text>
                     </TouchableOpacity>
 
-                    {/* Login Button */}
-                    <CustomButton
-                        title="Login"
+                    {/* Login Button with Loader */}
+                    <TouchableOpacity
+                        style={[styles.button, loading && styles.disabledButton]}
                         onPress={handleSubmit}
-                        buttonStyle={styles.button}
-                    />
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <ActivityIndicator size="small" color="#fff" />
+                        ) : (
+                            <Text style={styles.buttonText}>Login</Text>
+                        )}
+                    </TouchableOpacity>
 
                     <View style={styles.signupContainer}>
                         <Text style={styles.signupText}>Don't have an account? </Text>
-                        <TouchableOpacity
-                        onPress={()=>{
-                            navigation.navigate(ScreenNameEnum.SIGNUP_SCREEN)
-                        }}
-                        >
+                        <TouchableOpacity onPress={() => navigation.navigate(ScreenNameEnum.SIGNUP_SCREEN)}>
                             <Text style={styles.signupLink}>Sign Up</Text>
                         </TouchableOpacity>
                     </View>
@@ -154,10 +191,16 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         padding: 10,
         color: '#000',
-        marginBottom: 10,
+        marginBottom: 5,
     },
     errorInput: {
         borderColor: 'red',
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 14,
+        marginBottom: 10,
+        marginLeft: 10,
     },
     forgotPassword: {
         alignItems: 'center',
@@ -166,17 +209,30 @@ const styles = StyleSheet.create({
     forgotText: {
         color: '#0063FF',
         fontWeight: '600',
-        borderBottomWidth:0.5,
+        borderBottomWidth: 0.5,
         borderColor: '#0063FF',
         paddingVertical: 2,
     },
     button: {
+        backgroundColor: '#0063FF',
+        paddingVertical: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 8,
         marginTop: 20,
+    },
+    disabledButton: {
+        backgroundColor: '#A0A0A0',
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: '600',
     },
     signupContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginVertical: 20,
+        marginTop: 20,
     },
     signupText: {
         color: '#909090',
@@ -187,10 +243,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     bubbleBackground: {
-        height: hp(25),
+        height: hp(20),
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 20,
+
     },
     orText: {
         fontSize: 16,

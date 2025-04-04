@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useState } from 'react';
 import { color } from '../../constant';
 import Icon from '../../component/Icon';
@@ -13,31 +13,63 @@ import {
 import CustomButton from '../../component/CustomButton';
 import ScreenNameEnum from '../../routes/screenName.enum';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useRoute } from '@react-navigation/native';
+
+import Loading from '../../configs/Loader';
+import { otp_Verify } from '../../redux/Api/apiRequests';
 
 interface VerifyOtpProps {
     navigation: StackNavigationProp<any, any>;
 }
 
 const VerifyOtp: React.FC<VerifyOtpProps> = ({ navigation }) => {
+    const route = useRoute();
+    const { email } = route.params;
     const [value, setValue] = useState<string>('');
-    const ref = useBlurOnFulfill({ value, cellCount: 4 });
+    const [loading, setLoading] = useState<boolean>(false);
+   
+    const [error, setError] = useState<string>('');
+    const ref = useBlurOnFulfill({ value, cellCount: 6 });
 
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({
         value,
         setValue,
     });
 
+    const handleSubmit = async () => {
+        if (value.length !== 6) {
+            setError('Please enter a valid 6-digit OTP');
+            return;
+        }
+        setLoading(true);
+        setError('');
+        
+        try {
+            const res = await otp_Verify(email, value);
+            if (res?.success) {
+                navigation.navigate(ScreenNameEnum.CREATE_PASSWORD,{token:res?.token});
+            } else {
+                setError('Invalid OTP. Please try again.');
+            }
+        } catch (err) {
+            setError('Something went wrong. Please try again later.');
+        }
+        
+        setLoading(false);
+    };
+
     return (
         <View style={styles.container}>
+            {loading && <Loading  />}
             <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                style={{ paddingHorizontal: 15, marginTop: 50 }}>
+                style={{ paddingHorizontal: 15, marginTop: 0 }}>
                 <Icon source={images.BackNavs2} size={40} />
             </TouchableOpacity>
 
             <View style={styles.content}>
                 <Text style={styles.title}>Check your mail or check your cell phone</Text>
-                <Text style={styles.subtitle}>Please put the 4 digits sent to you</Text>
+                <Text style={styles.subtitle}>Please enter the 6-digit OTP sent to you</Text>
 
                 <View style={styles.codeContainer}>
                     <CodeField
@@ -45,7 +77,7 @@ const VerifyOtp: React.FC<VerifyOtpProps> = ({ navigation }) => {
                         {...props}
                         value={value}
                         onChangeText={setValue}
-                        cellCount={4}
+                        cellCount={6}
                         keyboardType="number-pad"
                         textContentType="oneTimeCode"
                         renderCell={({ index, symbol, isFocused }) => (
@@ -61,17 +93,19 @@ const VerifyOtp: React.FC<VerifyOtpProps> = ({ navigation }) => {
                     />
                 </View>
 
-                <View>
-                    <Text style={styles.resendOtp}>RESEND OTP</Text>
-                </View>
+                {error ? <Text style={styles.errorText}>{error}</Text> : null}
             </View>
 
-            <ImageBackground source={images.buble} style={{ height: hp(25), position: 'absolute', bottom: 0, width: wp(100), padding: 20 }}>
-                <CustomButton
-                    title="Submit"
-                    onPress={() => { navigation.navigate(ScreenNameEnum.CREATE_PASSWORD) }}
-                    buttonStyle={styles.button}
-                />
+            <ImageBackground source={images.buble} style={styles.imageBg}>
+                {loading ? (
+                    <ActivityIndicator size="large" color="#ffffff" />
+                ) : (
+                    <CustomButton
+                        title="Submit"
+                        onPress={handleSubmit}
+                        buttonStyle={styles.button}
+                    />
+                )}
             </ImageBackground>
         </View>
     );
@@ -86,13 +120,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: hp(10),
-        paddingHorizontal: 25
+        paddingHorizontal: 25,
     },
     title: {
         fontSize: 24,
         color: '#000',
         fontWeight: '500',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     subtitle: {
         fontSize: 14,
@@ -102,13 +136,14 @@ const styles = StyleSheet.create({
     },
     codeContainer: {
         height: hp(10),
-        width: '50%',
+        width: '80%',
         marginTop: hp(8),
         alignSelf: 'center',
     },
     cellContainer: {
-        backgroundColor: '#F7F8F8',
+        backgroundColor: '#c9c9c9',
         borderRadius: 15,
+        marginRight: 5,
     },
     cell: {
         width: 40,
@@ -125,21 +160,23 @@ const styles = StyleSheet.create({
         borderColor: '#0063FF',
         borderRadius: 10,
     },
-    resendOtp: {
+    errorText: {
+        color: 'red',
         fontSize: 14,
-        color: color.white,
-        borderBottomWidth: 0.8,
-        borderColor: '#fff',
+        marginTop: 10,
+        textAlign: 'center',
     },
-    buttonContainer: {
+    imageBg: {
+        height: hp(25),
         position: 'absolute',
-        bottom: 40,
-        width: '100%',
-        paddingHorizontal: 20,
+        bottom: 0,
+        width: wp(100),
+        padding: 20,
+        alignItems: 'center',
     },
     button: {
-
-        marginTop: 60
+        marginTop: 60,
+        width: wp(80),
     },
 });
 
