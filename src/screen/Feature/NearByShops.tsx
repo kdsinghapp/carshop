@@ -1,15 +1,19 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import CustomHeader from '../../component/CustomHeaderProps';
 import { color } from '../../constant';
 import VerticalshopList from '../../component/VerticalshopList';
 import images from '../../component/Image';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import CustomButton from '../../component/CustomButton';
+import { getneaybycarservicestore } from '../../redux/Api/apiRequests';
+import { useRoute } from '@react-navigation/native';
+import HorizontalshopList from './HorizontalshopList';
+import Skeleton from 'react-native-reanimated-skeleton';
+import { wp } from '../../component/Constant';
 
 // Define navigation type
 type RootStackParamList = {
-    NearByShops: undefined;
+    NearByShops: { id: string };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NearByShops'>;
@@ -24,17 +28,69 @@ interface ShopItem {
 }
 
 const NearByShops: React.FC<Props> = ({ navigation }) => {
+    const route = useRoute<any>();
+    const { id } = route.params;
+
+    const [NeayStore, setNeayStore] = useState<any>({});
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        allservices();
+    }, [id]);
+
+    const allservices = async () => {
+        setLoading(true);
+        const res = await getneaybycarservicestore('22.7196', '75.8577', id);
+        if (res.success) {
+            setNeayStore(res?.data);
+        }
+        setLoading(false);
+    };
+
     return (
         <View style={styles.container}>
             <CustomHeader navigation={navigation} title="Near By Shops" onSkipPress={() => { }} showSkip={false} />
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-                <VerticalshopList data={shopList} navigation={navigation} />
+                
+                {/* Ads Section */}
+                <View>
+                    <Text style={styles.sectionTitle}>Ads</Text>
+                    {loading ? (
+                        <Skeleton
+                        isLoading={loading}
+                        containerStyle={{ marginHorizontal: 15,flexDirection:'row' }}
+                        layout={[
+                            { key: 'ads1', width: '90%', height: 100, marginLeft: 10, borderRadius: 10 },
+                            { key: 'ads2', width: '90%', height: 100, marginLeft: 10, borderRadius: 10 },
+                        ]}
+                    />
+                        
+                    ) : NeayStore?.ads?.length > 0 ? (
+                        <HorizontalshopList data={NeayStore.ads} navigation={navigation} />
+                    ) : (
+                        <Text style={styles.emptyText}>No ads available</Text>
+                    )}
+                </View>
+
+                {/* Store Section */}
+                <View>
+                    <Text style={styles.sectionTitle}>Store</Text>
+                    {loading ? (
+                        <Skeleton
+                            isLoading={loading}
+                            containerStyle={{ marginHorizontal: 15 }}
+                            layout={[
+                                { key: 'store1', width: '100%', height: 100, marginBottom: 10, borderRadius: 10 },
+                                { key: 'store2', width: '100%', height: 100, marginBottom: 10, borderRadius: 10 },
+                            ]}
+                        />
+                    ) : NeayStore?.stores?.length > 0 ? (
+                        <VerticalshopList data={NeayStore.stores} navigation={navigation} />
+                    ) : (
+                        <Text style={styles.emptyText}>No store found</Text>
+                    )}
+                </View>
             </ScrollView>
-            <CustomButton
-                title='Price Guid'
-                onPress={() => { }}
-                buttonStyle={{ marginBottom: 10, marginHorizontal: 20 }}
-            />
         </View>
     );
 };
@@ -45,29 +101,21 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.baground,
-       
     },
     scrollContent: {
         marginTop: 30,
     },
+    sectionTitle: {
+        marginLeft: 15,
+        marginVertical: 10,
+        fontSize: 20,
+        color: '#000',
+        fontWeight: '700',
+    },
+    emptyText: {
+        marginLeft: 15,
+        fontSize: 16,
+        color: 'gray',
+        fontStyle: 'italic',
+    },
 });
-
-// Sample shop list data
-const shopList = [
-    {
-        name: 'Car Center',
-        location: 'Grand Park New',
-        distance: '2.5',
-        logo: images.cd,
-        price: '$100',
-        rating: '4.5'
-    },
-    {
-        name: 'Car wash',
-        location: 'Grand Park New',
-        distance: '2.5',
-        logo: images.cd,
-        price: '$100',
-        rating: '4.5'
-    },
-]

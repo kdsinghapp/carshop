@@ -6,11 +6,19 @@ import { mergeConfig } from 'axios';
 
 // Define the data type
 interface ListItem {
-  id: string;
+  id: number;
+  category_id: number;
   name: string;
-  details: string;
-  img: any; // Can be a local or remote image
+  name_no: string;
+  description: string;
+  description_no: string;
+  icon: string;
+  created_at: string; // ISO date string
+  updated_at: string; // ISO date string
+  deleted_at: string | null;
+  status: 'Active' | 'Inactive' | string; // Use union if you have predefined statuses
 }
+
 
 // Define props for the component
 interface VerticalListProps {
@@ -30,13 +38,13 @@ const VerticalList: React.FC<VerticalListProps> = ({ data, navigation, showBtn }
       renderItem={({ item, index }) => (
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate(ScreenNameEnum.NEARBY_SHOPS)
+            navigation.navigate(ScreenNameEnum.NEARBY_SHOPS,{id:item.id})
           }}
           style={styles.card}>
-          <Image source={item.img} style={styles.image} resizeMode="contain" />
+          <Image source={{uri:item.icon}} style={styles.image} resizeMode="contain" />
           <View style={styles.textContainer}>
             <Text style={styles.title}>{item.name}</Text>
-           {item.details && <Text style={{color:'#7B6F72',fontSize:14,fontWeight:'600'}}>{item.details}</Text>}
+           {item.description && <Text style={{color:'#7B6F72',fontSize:14,fontWeight:'600'}}>{item.description}</Text>}
 
           </View>
           {showBtn &&
@@ -91,9 +99,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   image: {
-    width: 80,
-    height: 80,
+    width: 70,
+    height: 70,
     marginLeft: 10,
+    backgroundColor:'#f0f0f0',
+    borderRadius:15,
+    marginRight:10
   },
 });
 

@@ -9,45 +9,25 @@ import Edit from '../assets/svg/messageedit.svg';
 
 
 type ReviewScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Review'>;
-type Props = { navigation: ReviewScreenNavigationProp };
+type Props = { navigation: ReviewScreenNavigationProp,Reviews:any };
 
-const Reviews = [
-  {
-    id: '1',
-    name: 'Kadin Calzoni',
-    review: 'The workers are very professional and the results are very satisfying. I like it very much!',
-    rating: 4,
-    image: 'https://randomuser.me/api/portraits/women/1.jpg',
-  },
-  {
-    id: '2',
-    name: 'Hanna Dokidis',
-    review: 'The workers are very professional and the results are very satisfying. I like it very much!',
-    rating: 5,
-    image: 'https://randomuser.me/api/portraits/women/2.jpg',
-  },
-  {
-    id: '3',
-    name: 'Terry Siphron',
-    review: 'The workers are very professional and the results are very satisfying. I like it very much!',
-    rating: 5,
-    image: 'https://randomuser.me/api/portraits/women/3.jpg',
-  },
-  {
-    id: '4',
-    name: 'Corey Schleifer',
-    review: 'The workers are very professional and the results are very satisfying. I like it very much!',
-    rating: 4,
-    image: 'https://randomuser.me/api/portraits/women/4.jpg',
-  },
-];
+interface Review {
+  id: number;
+  first_name: string;
+  last_name: string;
+  rating: number;
+  comment: string;
+  created_at: string;
+  profile_image: string;
+}
 
-const ReviewScreen: React.FC<Props> = ({ navigation }) => {
+const ReviewScreen: React.FC<Props> = ({ navigation,Reviews }) => {
   const renderStars = (rating: number) => {
     return '★'.repeat(rating) + '☆'.repeat(5 - rating);
   };
   const [modalVisible, setModalVisible] = useState(false);
-  const [reviews, setReviews] = useState(Reviews);
+  const [reviews, setReviews] = useState<Review[]>(Reviews);
+
   const handleAddReview = (reviewText: string, rating: number) => {
     setReviews([...reviews, { id: Date.now().toString(), name: 'User', review: reviewText, rating }]);
   };
@@ -70,10 +50,10 @@ const ReviewScreen: React.FC<Props> = ({ navigation }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.card}>
-            <Image source={{ uri: item.image }} style={styles.avatar} />
+            <Image source={{ uri: item.profile_image }} style={styles.avatar} />
             <View style={styles.textContainer}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.review}>{item.review}</Text>
+              <Text style={styles.name}>{item.first_name} {item.last_name}</Text>
+              <Text style={styles.review}>{item.comment}</Text>
               <Text style={styles.rating}>{renderStars(item.rating)}</Text>
             </View>
           </View>
@@ -112,7 +92,7 @@ const styles = StyleSheet.create({
   },
   card: {
     flexDirection: 'row',
-    alignItems: 'center',
+
     backgroundColor: '#f9f9f9',
     padding: 10,
     borderRadius: 10,
@@ -123,6 +103,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     marginRight: 10,
+    backgroundColor:'#f0f0f0'
   },
   textContainer: {
     flex: 1,

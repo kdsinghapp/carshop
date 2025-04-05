@@ -16,12 +16,13 @@ const Splash: React.FC = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            navigation.replace(ScreenNameEnum.LoginOption); // Navigate to the 'Home' screen
+            navigation.replace(ScreenNameEnum.BOTTAM_TAB); // Navigate to the 'Home' screen
         }, 4000); // 3 seconds delay
 
         return () => clearTimeout(timer); // Cleanup timeout on unmount
     }, [navigation]);
 
+    
     return (
         <View style={styles.container}>
               <StatusBar

@@ -6,22 +6,27 @@ import Icon from './Icon';
 import { icon } from './Image';
 
 // Define the data type for each garage item
-interface GarageItem {
-  id: string;
+interface StoreItem {
+  id: number;
   name: string;
-  location: string;
-  distance: string;
-  logo: any;
+  address: string;
+  latitude: string;       // or number, depending on how you use it
+  longitude: string;      // or number, same as above
+  phone: string;
+  email: string;
+  profile_image: string;
+  rating: string;         // or number if it's used in calculations
+  distance: number;       // in km/miles/etc.
 }
 
 // Define props for the component
-interface GarageListProps {
-  data: GarageItem[];
+interface StoreListProps {
+  data: StoreItem[];
 }
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-const GarageList: React.FC<GarageListProps> = ({ data }) => {
+const StoreList: React.FC<StoreListProps> = ({ data }) => {
   const navigation = useNavigation();
 
   return (
@@ -31,12 +36,12 @@ const GarageList: React.FC<GarageListProps> = ({ data }) => {
       contentContainerStyle={styles.listContainer}
       renderItem={({ item }) => (
         <View style={styles.card}>
-          <Image source={item.logo} style={styles.image} resizeMode="contain" />
+          <Image source={{uri:item.profile_image}} style={styles.image} resizeMode="contain" />
           <View style={styles.textContainer}>
             <Text style={styles.title}>{item.name}</Text>
             <View style={styles.row}>
 
-              <Text style={styles.subText}>{item.location}</Text>
+              <Text style={styles.subText}>{item.address}</Text>
             </View>
             <View style={styles.row}>
               <View style={styles.row}>
@@ -45,7 +50,7 @@ const GarageList: React.FC<GarageListProps> = ({ data }) => {
               </View>
               <View style={styles.row}>
                 <Icon size={16} source={icon.star} />
-                <Text style={styles.subText}>{item.distance}</Text>
+                <Text style={styles.subText}>{item.rating}</Text>
               </View>
             </View>
           </View>
@@ -95,6 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 5,
+    marginRight:5
   },
   subText: {
     fontSize: 13,
@@ -117,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GarageList;
+export default StoreList;

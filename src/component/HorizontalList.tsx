@@ -1,22 +1,33 @@
 import React from 'react';
 import { View, FlatList, Image, Text, StyleSheet, Dimensions } from 'react-native';
 import { hp } from './utils/Constant';
+import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import ScreenNameEnum from '../routes/screenName.enum';
 
 // Define the data type for bike items
-interface BikeItem {
-  id: string;
+interface Category {
+  id: number;
   name: string;
-  img: any; // Can be a local or remote image
+  icon: string;
+  description: string;
+  created_at: string; // ISO date string
+  updated_at: string;
+  deleted_at: string | null;
+  status: string;
 }
+
 
 // Define props for the component
 interface HorizontalListProps {
-  data: BikeItem[];
+  data: Category[];
 }
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const HorizontalList: React.FC<HorizontalListProps> = ({ data }) => {
+const navigation = useNavigation()
+  
   return (
     <FlatList
       data={data}
@@ -25,10 +36,14 @@ const HorizontalList: React.FC<HorizontalListProps> = ({ data }) => {
       keyExtractor={(item) => item.id}
       contentContainerStyle={styles.listContainer}
       renderItem={({ item }) => (
-        <View style={styles.card}>
-          <Image source={item.img} style={styles.image} resizeMode="contain" />
+        <TouchableOpacity 
+        onPress={()=>{
+          navigation.navigate(ScreenNameEnum.ALL_SERVICES,{id:item.id})
+        }}
+        style={styles.card}>
+          <Image source={{uri:item.icon}} style={styles.image} resizeMode="contain" />
           <Text style={styles.text}>{item.name}</Text>
-        </View>
+        </TouchableOpacity>
       )}
     />
   );

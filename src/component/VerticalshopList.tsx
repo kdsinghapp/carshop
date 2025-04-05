@@ -8,13 +8,16 @@ import ScreenNameEnum from '../routes/screenName.enum';
 // Define the data type for list items
 
 interface ListItem {
-  name: string,
-  location: string,
-  distance: string,
-  logo: any,
-  price: string,
-  rating: string
+  id: number;
+  name: string;
+  profile_image: string;
+  latitude: string;   // Could be number if you parse it
+  longitude: string;  // Same here
+  rating: string;     // Or number if your backend returns it as a number
+  distance: number;
+  price:string
 }
+
 
 // Define props for the component
 interface VerticalListProps {
@@ -29,19 +32,20 @@ const VerticalshopList: React.FC<VerticalListProps> = ({ data, navigation }) => 
       data={data}
       keyExtractor={(item) => item.id}
       contentContainerStyle={styles.listContainer}
+      showsVerticalScrollIndicator={false}
       renderItem={({ item }) => (
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate(ScreenNameEnum.GARAGE_DETAILS)
+            navigation.navigate(ScreenNameEnum.GARAGE_DETAILS,{id:item.id})
           }}
           style={styles.card}>
-          <Image source={item.logo} style={styles.image} resizeMode="cover" />
+          <Image source={{uri:item.profile_image}} style={styles.image} resizeMode="cover" />
           <View style={styles.textContainer}>
             <Text style={styles.title}>{item.name}</Text>
             <Text style={styles.address}>{item.location}</Text>
             <View style={styles.infoContainer}>
               <Icon size={16} source={icon.pin} />
-              <Text style={styles.infoText}>{item.distance}</Text>
+              <Text style={styles.infoText}>{item.distance?.toFixed(2)} km</Text>
               <Icon source={icon.star} size={16} />
               <Text style={styles.infoText}>{item.rating}</Text>
             </View>

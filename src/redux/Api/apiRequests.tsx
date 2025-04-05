@@ -225,6 +225,162 @@ const getcitylist = async () => {
         return { success: false, message: error.message, state: [] };
     }
 };
+const getdashboard = async () => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.dashboard+`latitude=22.7196&longitude=75.8577&country_id=101`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
+const getservicesbycategoryid = async (id:string) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.getservicesbycategoryid+`${id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.data, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
+const getneaybycarservicestore = async (latitude:string,longitude:string,id:string) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.getneaybycarservicestore+`latitude=${latitude}&longitude=${longitude}&car_service_id=${id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.data, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
+const getcarservicestoreid = async (id:string) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.getcarservicestoreid+`${id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.data, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
 
 const createpassword = async (body: any) => {
 console.log('=========createpassword===========================',body);
@@ -270,4 +426,4 @@ console.log('=========createpassword===========================',body);
     }
 };
 
-export { login, otp_Verify, send_Otp, getcitylist, register ,createpassword }  
+export { login, otp_Verify,getcarservicestoreid, send_Otp, getcitylist, register ,getneaybycarservicestore,createpassword,getdashboard,getservicesbycategoryid }  

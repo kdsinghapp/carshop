@@ -5,8 +5,11 @@ export const endpoint = {
   login: '/login',
   sendotp: '/email/send-otp?email=',
   verifyotp: "/email/verify-otp?",
-  setpassword:'/set-password'
-
+  setpassword:'/set-password',
+  dashboard:'/get-home-api?',
+  getservicesbycategoryid:'/get-services-by-car-services-category-id?car_service_category_id=',
+  getneaybycarservicestore:'/get-near-by-car-service-stores?',
+  getcarservicestoreid:'/get-near-by-car-service-stores-by-id?car_service_store_id='
 
 
 };

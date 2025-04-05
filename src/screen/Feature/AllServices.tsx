@@ -1,64 +1,92 @@
-import React from 'react';
-import { View, StyleSheet,ScrollView } from 'react-native';
-import images from '../../component/Image';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import Skeleton from 'react-native-reanimated-skeleton';
 import VerticalList from '../../component/VerticalList';
 import CustomHeader from '../../component/CustomHeaderProps';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { color } from '../../constant';
+import { getservicesbycategoryid } from '../../redux/Api/apiRequests';
+import { useRoute } from '@react-navigation/native';
+import { wp } from '../../component/Constant';
 
-// Define the navigation type
 type RootStackParamList = {
   AllServices: undefined;
-  // Add other screens if needed
 };
 
-// Define props for the component
 type Props = NativeStackScreenProps<RootStackParamList, 'AllServices'>;
 
 const AllServices: React.FC<Props> = ({ navigation }) => {
+  const route = useRoute();
+  const { id } = route.params;
+
+  const [Service, setService] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    allservices();
+  }, [id]);
+
+  const allservices = async () => {
+    setLoading(true);
+    const res = await getservicesbycategoryid(id);
+    if (res.success) {
+      setService(res?.data);
+    }
+    setLoading(false);
+  };
+
   return (
     <View style={styles.container}>
       <CustomHeader navigation={navigation} title="Book Service" onSkipPress={() => { }} showSkip={false} />
-     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{marginTop:20}}>
-      <VerticalList data={data} navigation={navigation}  showBtn={true} />
+
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ marginTop: 20 }}>
+        <Skeleton
+          isLoading={loading}
+          containerStyle={styles.skeletonContainer}
+          layout={[
+            { key: 's1', width: '90%', height: 100, marginBottom: 10, borderRadius: 10 },
+            { key: 's2', width: '90%', height: 100, marginBottom: 10, borderRadius: 10 },
+            { key: 's3', width: '90%', height: 100, marginBottom: 10, borderRadius: 10 },
+          ]}
+        >
+          {
+            Service?.length > 0 ? (
+              <View style={{
+              width:wp(90)
+              }}>
+
+                <VerticalList data={Service} navigation={navigation} showBtn={true} />
+              </View>
+            ) : (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No service found</Text>
+              </View>
+            )
+          }
+        </Skeleton>
       </ScrollView>
     </View>
   );
 };
 
-
-
-// Sample shop list data
-const data = [
-  {
-    name: 'Car Care',
-    img: images.c1
-
-  },
-
-  {
-    name: 'Mechanice',
-    img: images.c3
-
-  },
-  {
-    name: 'Painter',
-    img: images.c2
-
-  },
-  {
-    name: 'Electric',
-    img: images.c4
-
-  },
-]
+export default AllServices;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:color.baground,
-
+    backgroundColor: color.baground,
+  },
+  skeletonContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: 'gray',
+    fontStyle: 'italic',
   },
 });
-
-export default AllServices;

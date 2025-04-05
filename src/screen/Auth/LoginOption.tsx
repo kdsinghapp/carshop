@@ -52,7 +52,7 @@ backgroundColor={'#fff'}
             <View style={styles.buttonContainer}>
                 {/* COMPANY Login Button */}
                 <Pressable onPress={() => signInHandler('company')} style={styles.loginButton}>
-                    <Text style={styles.buttonText}>COMPANY</Text>
+                    <Text style={styles.buttonText}>SHOP</Text>
                 </Pressable>
 
                 {/* USER Login Button */}

@@ -18,39 +18,29 @@ import { wp } from './utils/Constant';
 const { width } = Dimensions.get('window');
 
 interface Banner {
-    id: string;
+    id: number;
     title: string;
     description: string;
-    imageUrl: string;
-}
+    category: string;
+    image: string;
+    redirect_url: string;
+    position: number;
+    status: string;
+    created_at: string;  // ISO date string
+    updated_at: string;
+    deleted_at: string | null;
+    country_id: number;
+  }
+  
 
 interface BannerSliderProps {
     navigation: StackNavigationProp<any, any>;
+    data:any
 }
 
-// Demo Data (Replace API Call)
-const demoBanners: Banner[] = [
-    {
-        id: '1',
-        title: 'Get Special Offer',
-        description: 'Up to 40%',
-        imageUrl: images.banner,
-    },
-    {
-        id: '2',
-        title: 'Home Cleaning',
-        description: 'Professional cleaning at your doorstep',
-        imageUrl: images.banner,
-    },
-    {
-        id: '3',
-        title: 'Fitness Training',
-        description: 'Stay fit with expert guidance',
-        imageUrl: images.banner,
-    },
-];
 
-const BannerSlider: React.FC<BannerSliderProps> = ({ navigation }) => {
+
+const BannerSlider: React.FC<BannerSliderProps> = ({ navigation,data }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const flatListRef = useRef<FlatList<Banner>>(null);
 
@@ -62,7 +52,7 @@ const BannerSlider: React.FC<BannerSliderProps> = ({ navigation }) => {
 
     const renderItem = ({ item }: { item: Banner }) => (
         <View style={styles.bannerContainer}>
-            <Image source={images.banner}
+            <Image source={{uri:item.image}}
                 resizeMode='cover'
                 style={styles.bannerImage} />
             <View style={styles.overlay} />
@@ -85,7 +75,7 @@ const BannerSlider: React.FC<BannerSliderProps> = ({ navigation }) => {
         <View style={styles.container}>
             <FlatList
                 ref={flatListRef}
-                data={demoBanners}
+                data={data}
                 horizontal
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
@@ -96,7 +86,7 @@ const BannerSlider: React.FC<BannerSliderProps> = ({ navigation }) => {
             />
             {/* Pagination Dots */}
             <View style={styles.pagination}>
-                {demoBanners.map((_, index) => (
+                {data?.map((_, index) => (
                     <View key={index} style={[styles.dot, currentIndex === index && styles.activeDot]} />
                 ))}
             </View>
