@@ -156,7 +156,11 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
           <Image source={{uri:Store?.profile_image}} style={styles.garageImage} resizeMode="cover" />
 
 
-          <TouchableOpacity style={{ position: 'absolute', top: 40, left: 10 }}>
+          <TouchableOpacity 
+          onPress={()=>{
+            navigation.goBack()
+          }}
+          style={{ position: 'absolute', top: 40, left: 10 }}>
             <Icon source={images.BackNavs2} size={30} />
           </TouchableOpacity>
           <TouchableOpacity style={{ position: 'absolute', top: 40, right: 10 }}>

@@ -64,7 +64,7 @@ const Login: React.FC = ({ navigation }) => {
             const res = await login(body);
 
             if (res?.success) {
-                navigation.navigate(ScreenNameEnum.BOTTAM_TAB);
+                navigation.navigate(ScreenNameEnum.LocationAccessScreen);
             } else {
                 Alert.alert('Login Failed', res?.message || 'Invalid credentials, please try again.');
             }

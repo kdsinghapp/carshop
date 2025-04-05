@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { color } from '../../constant';
 import images from '../../component/Image';
 import ScreenNameEnum from '../../routes/screenName.enum';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define the navigation type
 type RootStackParamList = {
@@ -15,11 +16,23 @@ const Splash: React.FC = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            navigation.replace(ScreenNameEnum.BOTTAM_TAB); // Navigate to the 'Home' screen
-        }, 4000); // 3 seconds delay
+        const checkTokenAndNavigate = async () => {
+            await new Promise(resolve => setTimeout(resolve, 4000)); // 4 seconds delay
 
-        return () => clearTimeout(timer); // Cleanup timeout on unmount
+            try {
+                const token = await AsyncStorage.getItem('token');
+                if (token) {
+                    navigation.replace(ScreenNameEnum.BOTTAM_TAB);
+                } else {
+                    navigation.replace(ScreenNameEnum.LoginOption); // Replace with your login screen enum
+                }
+            } catch (error) {
+                console.error("Error fetching token:", error);
+                navigation.replace(ScreenNameEnum.LoginOption); // fallback on error
+            }
+        };
+
+        checkTokenAndNavigate();
     }, [navigation]);
 
     
