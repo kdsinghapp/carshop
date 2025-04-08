@@ -22,11 +22,13 @@ import SearchBar from '../../component/SearchBar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getdashboard } from '../../redux/Api/apiRequests';
 import Skeleton from 'react-native-reanimated-skeleton';
+import { useLocation } from '../../component/LocationContext';
 
 export default function Home() {
   const navigation = useNavigation();
   const [Dashboard, setDashboard] = useState<any>({});
   const [loading, setLoading] = useState(true);
+  const { locationName, setLocationName } = useLocation();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -65,7 +67,7 @@ export default function Home() {
         <ImageBackground source={images.homebg} style={{ height: hp(25), paddingVertical:50 }}>
           <HomeHeader
             navigation={navigation}
-            location="Wallace, Australia"
+            location={locationName ? locationName:'Fetching'}
             hasNotifications={true}
             onLocationPress={() => {navigation.navigate(ScreenNameEnum.SelectLocation)}}
             onNotificationPress={() => console.log('Notifications Pressed')}

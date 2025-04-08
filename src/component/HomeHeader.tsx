@@ -24,8 +24,8 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
     return (
         <View style={styles.container}>
             {/* Location Section */}
-            <View>
-            <Text style={styles.locationText}>Location</Text>
+            <View style={{width:'50%'}}>
+            <Text style={[styles.locationText,{fontSize:14}]}> Location</Text>
      
             <TouchableOpacity onPress={onLocationPress} style={styles.locationContainer}>
                 <Image source={icon.pin} style={styles.locationIcon} />
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         marginRight: 5,
     },
     locationText: {
-        fontSize: 14,
+        fontSize: 12,
         color: '#fff',
         fontWeight: '500',
     },

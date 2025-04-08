@@ -48,7 +48,7 @@ const ReviewScreen: React.FC<Props> = ({ navigation, Reviews, store_id, handleRe
   }, [Reviews])
 
 
-  
+
   const handleAddReview = async (reviewText: string, rating: number,) => {
     try {
 
@@ -69,7 +69,7 @@ const ReviewScreen: React.FC<Props> = ({ navigation, Reviews, store_id, handleRe
         ToastAndroid.show(res.message || 'Failed to submit review.', ToastAndroid.SHORT);
         await handleReviewList()
       }
-   
+
     } catch (error) {
       console.error('Review Submit Error:', error);
       ToastAndroid.show('An error occurred. Please try again.', ToastAndroid.SHORT);
@@ -77,7 +77,7 @@ const ReviewScreen: React.FC<Props> = ({ navigation, Reviews, store_id, handleRe
     }
   };
 
-  const handleUpdateReview = async (reviewText: string, rating: number,review_id:string) => {
+  const handleUpdateReview = async (reviewText: string, rating: number, review_id: string) => {
     try {
 
       const body = {
@@ -85,10 +85,10 @@ const ReviewScreen: React.FC<Props> = ({ navigation, Reviews, store_id, handleRe
         user_id: User?.id,
         rating: rating,
         comment: reviewText,
-        review_id:review_id
+        review_id: review_id
       };
 
-    
+
 
       const res = await updatestorereview(body); // Await the API call
 
@@ -150,7 +150,7 @@ const ReviewScreen: React.FC<Props> = ({ navigation, Reviews, store_id, handleRe
         </TouchableOpacity>
       </View>
 
-      <FlatList
+      {reviews?.length > 0 ? <FlatList
         data={reviews}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -162,47 +162,54 @@ const ReviewScreen: React.FC<Props> = ({ navigation, Reviews, store_id, handleRe
               <Text style={styles.rating}>{renderStars(item.rating)}</Text>
             </View>
             {item.user_id === User?.id &&
-            <View style={{marginLeft:15}}>
-            <TouchableOpacity style={{
-            
-            }}
-            onPress={()=>{
-              setreviewData(item)
-              setisUpdateModal(true)
-            }}
-            >
+              <View style={{ marginLeft: 15 }}>
+                <TouchableOpacity style={{
 
-              <Edit size={15} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{
-            marginTop:10
-            }}
-            onPress={()=>{
-              setreviewData(item)
-              deleteReview(item?.id)
-            }}
-            >
+                }}
+                  onPress={() => {
+                    setreviewData(item)
+                    setisUpdateModal(true)
+                  }}
+                >
 
-              <Icon  source={icon.delete} size={20} />
-            </TouchableOpacity>
-            </View>
+                  <Edit size={15} />
+                </TouchableOpacity>
+                <TouchableOpacity style={{
+                  marginTop: 10
+                }}
+                  onPress={() => {
+                    setreviewData(item)
+                    deleteReview(item?.id)
+                  }}
+                >
+
+                  <Icon source={icon.delete} size={20} />
+                </TouchableOpacity>
+              </View>
             }
 
           </View>
         )}
-      />
+      /> :
+        <View style={{
+          height: 50, alignItems: 'center', justifyContent: 'center'
+        }}>
+          <Text style={{
+            color: '#000', fontWeight: '600'
+          }}>No Review</Text>
+        </View>}
       <AddReviewModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         onSubmit={handleAddReview}
       />
 
-    <UpdateReviewModal
-  visible={isUpdateModal}
-  review={reviewData}
-  onClose={() => setisUpdateModal(false)}
-  onSubmitSuccess={handleUpdateReview}
-/>
+      <UpdateReviewModal
+        visible={isUpdateModal}
+        review={reviewData}
+        onClose={() => setisUpdateModal(false)}
+        onSubmitSuccess={handleUpdateReview}
+      />
     </View>
   );
 };
@@ -245,8 +252,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0'
   },
   textContainer: {
-  
-    width:'70%'
+
+    width: '70%'
   },
   name: {
     fontSize: 16,

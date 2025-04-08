@@ -338,17 +338,10 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
             {showTab === 'Review' &&
 
               <View style={{ flex: 1 }}>
-                {reviews?.length > 0 ? <ReviewScreen Reviews={reviews} navigation={navigation}
+             <ReviewScreen Reviews={reviews} navigation={navigation}
                   store_id={Store?.id}
-                  handleReviewList={garageDetails2} /> :
-                  <View style={{
-                    height: 50, alignItems: 'center', justifyContent: 'center'
-                  }}>
-                    <Text style={{
-                      color: '#000', fontWeight: '600'
-                    }}>No Review</Text>
-                  </View>
-                }
+                  handleReviewList={garageDetails2} /> 
+                
               </View>
             }
             <CustomButton
