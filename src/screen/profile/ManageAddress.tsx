@@ -1,14 +1,16 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Dimensions } from 'react-native';
 import Icon from '../../component/Icon';
 import images, { icon, } from '../../component/Image';
 import CustomButton from '../../component/CustomButton';
 import ScreenNameEnum from '../../routes/screenName.enum';
 import { listaddress } from '../../redux/Api/apiRequests';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
+import MapPickerModal2 from './MapPicker2';
+import Edit from '../../assets/svg/messageedit.svg';
+import Skeleton from 'react-native-reanimated-skeleton';
+import { hp, wp } from '../../component/Constant';
 
 interface User {
   id: number;
@@ -30,9 +32,17 @@ interface Address {
   deleted_at: string | null;
   user: User;
 }
+const { width } = Dimensions.get('window');
+
 const ManageAddress: React.FC = ({ navigation }) => {
   const [User, setUser] = useState<string>();
   const [AddressList, setAddressList] = useState<Address[]>([]);
+  const [pickupModalVisible, setpickupModalVisible] = useState(false)
+  const [PickupLocation, setPickupLocation] = useState('')
+  const [PickupLocationName, setPickupLocationName] = useState(false)
+  const [loading, setLoading] = useState<boolean>(true);
+
+
 
   useEffect(() => {
 
@@ -45,18 +55,22 @@ const ManageAddress: React.FC = ({ navigation }) => {
   }, [])
   useEffect(() => {
     getAddress()
-  }, [User?.id])
+  }, [User?.id,pickupModalVisible])
 
 
   const getAddress = async () => {
-
-    const res = await listaddress(User?.id)
-    if (res.success) {
-
-      setAddressList(res?.data)
+    setLoading(true);
+    try {
+      const res = await listaddress(User?.id);
+      if (res.success) {
+        setAddressList(res.data);
+      }
+    } catch (error) {
+      console.error('Error fetching address:', error);
+    } finally {
+      setLoading(false);
     }
-
-  }
+  };
 
   const checkIcon = (name: string) => {
     if (name === 'Home') return icon.addhome;
@@ -64,7 +78,29 @@ const ManageAddress: React.FC = ({ navigation }) => {
     if (name === 'Favorites') return icon.addfav;
     return icon.default; // Fallback icon
   };
+
+
+
   return (
+    <View style={{
+      flex:1
+    }}>
+    {loading ? (
+    <View style={{marginTop:hp(28) }}>
+         <Skeleton
+      isLoading={loading}
+      
+      layout={[
+        { key: 'header', width: width * 0.9, height:60, marginTop: 20, marginBottom: 10 },
+        { key: 'line1', width: width * 0.9, height: 60, marginBottom: 10 },
+        { key: 'line2', width: width * 0.9, height: 60, marginBottom: 10 },
+        { key: 'line3', width: width * 0.9, height: 60, marginBottom: 10 },
+        { key: 'button', width: width * 0.9, height: 50, marginTop: 20 },
+      ]}
+    />
+    </View>
+    ):(
+    
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
@@ -90,6 +126,24 @@ const ManageAddress: React.FC = ({ navigation }) => {
                 <Text style={styles.addressTitle}>{item.title}</Text>
                 <Text style={styles.addressDetails}>{item.address}</Text>
               </View>
+              <View style={styles.addressText}>
+              <TouchableOpacity style={{
+            
+          }}
+        
+          >
+
+            <Edit size={15} />
+          </TouchableOpacity>
+          <TouchableOpacity style={{
+          marginTop:10
+          }}
+     
+          >
+
+            <Icon  source={icon.delete} size={20} />
+          </TouchableOpacity>
+              </View>
             </View>
           )}
         /> :
@@ -103,10 +157,17 @@ const ManageAddress: React.FC = ({ navigation }) => {
         }
       </View>
       {/* Add New Button */}
-      <TouchableOpacity style={styles.addNewButton}>
+      <TouchableOpacity
+      onPress={()=>{
+        setpickupModalVisible(true)
+      }}
+      style={styles.addNewButton}>
         <Text style={styles.addNewText}>Add New</Text>
       </TouchableOpacity>
+      <MapPickerModal2 setModalVisible={setpickupModalVisible} modalVisible={pickupModalVisible} sendLocation={setPickupLocation} setLocationName={setPickupLocationName} />
 
+    </View>
+    )}
     </View>
   );
 };
@@ -141,8 +202,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   addressText: {
-    flex: 1,
-    width:'80%'
+
+    width:wp(65)
   },
   addressTitle: {
     fontSize: 16,

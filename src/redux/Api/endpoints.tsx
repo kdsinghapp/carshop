@@ -14,6 +14,7 @@ export const endpoint = {
   updatestorereview:'/review/update-review',
   deletereview:'/review/delete-review?',
   listaddress:'/address/list-address?user_id=',
+  addaddress:'/address/add-address?'
 
 
 };

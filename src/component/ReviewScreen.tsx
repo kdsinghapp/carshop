@@ -46,6 +46,9 @@ const ReviewScreen: React.FC<Props> = ({ navigation, Reviews, store_id, handleRe
     }
     getUser()
   }, [Reviews])
+
+
+  
   const handleAddReview = async (reviewText: string, rating: number,) => {
     try {
 

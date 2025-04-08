@@ -120,6 +120,9 @@ const icon = {
   leftblue: require('../assets/icons/leftblue.png'),
   heart: require('../assets/icons/heart.png'),
   google: require('../assets/icons/Google2.png'),
+  gps: require('../assets/icons/gps.png'),
+  save: require('../assets/images/save.png'),
+  cancel: require('../assets/images/cancel.png'),
 };
 export default images
 export { icon }

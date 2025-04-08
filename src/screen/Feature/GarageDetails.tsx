@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, StatusBar, TouchableOpacity, FlatList, ImageBackground, Linking, Alert } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import CustomHeader from '../../component/CustomHeaderProps';
 import { color } from '../../constant';
 import images, { icon } from '../../component/Image';
 import { hp, wp } from '../../component/utils/Constant';
@@ -11,7 +9,6 @@ import ScreenNameEnum from '../../routes/screenName.enum';
 import VerticalList from '../../component/VerticalList';
 import GalleryScreen from '../../component/GalleryScreen';
 import ReviewScreen from '../../component/ReviewScreen';
-import AddReviewModal from './AddReviewModal';
 import { useRoute } from '@react-navigation/native';
 import { getcarservicestoreid, getservicesbycategoryid } from '../../redux/Api/apiRequests';
 import GarageDetailSkeleton from '../../component/GarageDetailSkeleton';
