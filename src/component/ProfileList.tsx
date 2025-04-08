@@ -37,16 +37,14 @@ const ProfileMenuList: React.FC<ProfileMenuListProps> = ({ data }) => {
 
             onPress={async() => {
 
-              if (item.title !== 'Logout') {
+              if (item.title === 'Manage Address') {
                 navigation.navigate(item.screen as never)
               }
-              if (item.title === 'Logout') {
+             else if (item.title === 'Logout') {
               await  AsyncStorage.clear()
                 navigation.navigate(ScreenNameEnum.LoginOption)
               }
-              else{
-                setIsModalVisible(true)
-              }
+              
             }}
 
           >

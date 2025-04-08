@@ -51,6 +51,8 @@ const images = {
 };
 const icon = {
 
+  default: require('../assets/icons/otheradd.png'),
+  delete: require('../assets/icons/delete.png'),
   redtras: require('../assets/icons/redtras.png'),
   eyes: require('../assets/icons/eye.png'),
   edit: require('../assets/icons/edit.png'),

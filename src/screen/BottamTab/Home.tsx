@@ -61,14 +61,13 @@ export default function Home() {
   return (
     <View style={{ flex: 1, backgroundColor: color.baground }}>
       <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-
       <ScrollView showsVerticalScrollIndicator={false}>
-        <ImageBackground source={images.homebg} style={{ height: hp(25), paddingVertical: 50 }}>
+        <ImageBackground source={images.homebg} style={{ height: hp(25), paddingVertical:50 }}>
           <HomeHeader
             navigation={navigation}
             location="Wallace, Australia"
             hasNotifications={true}
-            onLocationPress={() => console.log('Location Pressed')}
+            onLocationPress={() => {navigation.navigate(ScreenNameEnum.SelectLocation)}}
             onNotificationPress={() => console.log('Notifications Pressed')}
           />
         </ImageBackground>

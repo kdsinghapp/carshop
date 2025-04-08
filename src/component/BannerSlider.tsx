@@ -30,17 +30,17 @@ interface Banner {
     updated_at: string;
     deleted_at: string | null;
     country_id: number;
-  }
-  
+}
+
 
 interface BannerSliderProps {
     navigation: StackNavigationProp<any, any>;
-    data:any
+    data: any
 }
 
 
 
-const BannerSlider: React.FC<BannerSliderProps> = ({ navigation,data }) => {
+const BannerSlider: React.FC<BannerSliderProps> = ({ navigation, data }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const flatListRef = useRef<FlatList<Banner>>(null);
 
@@ -50,9 +50,9 @@ const BannerSlider: React.FC<BannerSliderProps> = ({ navigation,data }) => {
         }
     };
 
-    const renderItem = ({ item }: { item: Banner }) => (
-        <View style={styles.bannerContainer}>
-            <Image source={{uri:item.image}}
+    const renderItem = ({ item, index }: { item: Banner, index }) => (
+        <View style={[styles.bannerContainer, { marginLeft: index === 0 ? 20:0 }]}>
+            <Image source={{ uri: item.image }}
                 resizeMode='cover'
                 style={styles.bannerImage} />
             <View style={styles.overlay} />
@@ -106,7 +106,9 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         backgroundColor: color.baground,
         position: 'relative',
-        marginHorizontal: 10,
+
+        marginRight: 40,
+
     },
     bannerImage: {
         width: wp(100),
@@ -137,9 +139,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 8,
         borderRadius: 20,
-        width:wp(30),
-        alignItems:'center',
-        justifyContent:'center'
+        width: wp(30),
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     buttonText: {
         color: '#fff',
@@ -149,18 +151,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         position: 'absolute',
         bottom: 10,
-        right:40
+        right: 40
     },
     dot: {
         width: 8,
         height: 8,
         borderRadius: 4,
         backgroundColor: '#888',
-        marginHorizontal:2,
+        marginHorizontal: 2,
     },
     activeDot: {
         backgroundColor: '#fff',
-        width:15,
+        width: 15,
     },
 });
 

@@ -19,6 +19,7 @@ import CustomButton from '../../component/CustomButton';
 import ScreenNameEnum from '../../routes/screenName.enum';
 import CustomTextInput from '../../component/TextInput';
 import { login } from '../../redux/Api/apiRequests';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login: React.FC = ({ navigation }) => {
     const [identity, setIdentity] = useState('');
@@ -63,6 +64,7 @@ const Login: React.FC = ({ navigation }) => {
         try {
             const res = await login(body);
 
+            await AsyncStorage.setItem('user',JSON.stringify(res.user))
             if (res?.success) {
                 navigation.navigate(ScreenNameEnum.LocationAccessScreen);
             } else {

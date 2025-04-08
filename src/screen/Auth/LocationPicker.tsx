@@ -34,15 +34,9 @@ const LocationPicker: React.FC = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={{
-                paddingVertical:5,
-                height: hp(11), backgroundColor: '#fff',
-
-                width: wp(100)
-            }}>
-
+          
                 <CustomHeader title='Set Your Location' navigation={navigation} />
-            </View>
+           
 
 
             <MapView style={styles.map} region={region}>

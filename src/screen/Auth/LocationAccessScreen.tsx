@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, BackHandler, Alert } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import Icon from '../../component/Icon';
 import images from '../../component/Image';
@@ -8,6 +8,7 @@ import { wp } from '../../component/utils/Constant';
 import { getCurrentLocation, locationPermission } from '../../component/helperFunction';
 import { useLocation } from '../../component/LocationContext';
 import ScreenNameEnum from '../../routes/screenName.enum';
+import { useFocusEffect } from '@react-navigation/native';
 
 const LocationAccessScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     const { locationName, setLocationName } = useLocation();
@@ -20,7 +21,22 @@ const LocationAccessScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
             return "Address not found";
         }
     }
-
+    useFocusEffect(
+        React.useCallback(() => {
+          const backAction = () => {
+            Alert.alert('Exit App', 'Are you sure you want to exit?', [
+              { text: 'Cancel', style: 'cancel' },
+              { text: 'Yes', onPress: () => BackHandler.exitApp() },
+            ]);
+            return true;
+          };
+          const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+          );
+          return () => backHandler.remove();
+        }, [])
+      );
     const fetchLocationData = async () => {
         setLoading(true); // Start loader
         try {

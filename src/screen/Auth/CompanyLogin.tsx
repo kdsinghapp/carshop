@@ -8,7 +8,8 @@
         StyleSheet,
         TouchableOpacity,
         Image,
-        ImageBackground
+        ImageBackground,
+        Linking
     } from 'react-native';
     import images, { icon } from '../../component/Image';
     import { color } from '../../constant';
@@ -98,19 +99,19 @@
                             onPress={handleSubmit}
                             buttonStyle={styles.button}
                         />
-    
+     <ImageBackground source={images.buble} style={styles.bubbleBackground}>
                         <View style={styles.signupContainer}>
                             <Text style={styles.signupText}>Don't have an account? </Text>
                             <TouchableOpacity
                             onPress={()=>{
-                                navigation.navigate(ScreenNameEnum.SIGNUP_SCREEN)
+                               Linking.openURL('https://server-php-8-3.technorizen.com/amitendra/car-care/home1.html')
                             }}
                             >
                                 <Text style={styles.signupLink}>Sign Up</Text>
                             </TouchableOpacity>
                         </View>
     
-                        <ImageBackground source={images.buble} style={styles.bubbleBackground}>
+                       
                             <Text style={styles.orText}>OR</Text>
                             <TouchableOpacity style={styles.googleLogin}>
                                 <Icon source={icon.google} size={25} />
@@ -184,9 +185,10 @@
             marginTop: 20,
         },
         signupContainer: {
+
             flexDirection: 'row',
             justifyContent: 'center',
-            marginVertical: 20,
+            marginBottom: 20,
         },
         signupText: {
             color: '#909090',
@@ -200,7 +202,7 @@
             height: hp(25),
             alignItems: 'center',
             justifyContent: 'center',
-            marginTop: 20,
+   
         },
         orText: {
             fontSize: 16,

@@ -9,7 +9,11 @@ export const endpoint = {
   dashboard:'/get-home-api?',
   getservicesbycategoryid:'/get-services-by-car-services-category-id?car_service_category_id=',
   getneaybycarservicestore:'/get-near-by-car-service-stores?',
-  getcarservicestoreid:'/get-near-by-car-service-stores-by-id?car_service_store_id='
+  getcarservicestoreid:'/get-near-by-car-service-stores-by-id?car_service_store_id=',
+  addstorereview:'/review/add-review',
+  updatestorereview:'/review/update-review',
+  deletereview:'/review/delete-review?',
+  listaddress:'/address/list-address?user_id=',
 
 
 };

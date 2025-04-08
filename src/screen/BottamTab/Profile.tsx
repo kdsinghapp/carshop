@@ -28,17 +28,17 @@ const Profile: React.FC<Props> = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-     <CustomHeader
-                    seconfImg={true}
-                    navigation={navigation} title="Profile"
-                     showSkip={false} 
-                     style={{ }} />
+            <CustomHeader
+                seconfImg={true}
+                navigation={navigation} title="Profile"
+                showSkip={false}
+                style={{ marginTop: 25 }} />
 
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
 
-              
+
                 <ProfileMenuList data={profileData} />
-               
+
             </ScrollView>
         </View>
     );
@@ -70,24 +70,24 @@ const profileData: ProfileMenuItem[] = [
         id: 4,
         title: 'Payment Methods',
         icon: icon.Payment,
-        screen:ScreenNameEnum.PaymentMethods
+        screen: ScreenNameEnum.PaymentMethods
     },
     {
         id: 4,
         title: 'My Booking',
         icon: icon.MyBooking,
-        screen:ScreenNameEnum.MyBookings
+        screen: ScreenNameEnum.MyBookings
     },
     {
         id: 4,
         title: 'My Wallet',
         icon: icon.Wallet,
-        screen:ScreenNameEnum.Wallet
-    },{
+        screen: ScreenNameEnum.Wallet
+    }, {
         id: 4,
         title: 'Promo codes',
         icon: icon.PromoCode,
-        screen:ScreenNameEnum.Reward
+        screen: ScreenNameEnum.Reward
     },
     {
         id: 5,
@@ -122,6 +122,6 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
     scrollContent: {
-        marginTop:20,
+    
     },
 });

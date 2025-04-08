@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Icon from './Icon';
 import images, { icon } from './Image';
@@ -16,7 +16,9 @@ interface CustomHeaderProps {
 
 const CustomHeader: React.FC<CustomHeaderProps> = ({ navigation, title,seconfImg, showSkip = false, onSkipPress,style }) => {
     return (
+        <SafeAreaView>
         <View style={[styles.container,style]}>
+
             {/* Back Button */}
             <TouchableOpacity
             
@@ -39,6 +41,7 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({ navigation, title,seconfImg
                 </View>
             )}
         </View>
+        </SafeAreaView>
     );
 };
 
@@ -49,7 +52,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal:5,
         paddingVertical:0,
-        marginTop:30
+        backgroundColor:'#fff',
+        paddingBottom:10
         
     },
     backButton: {

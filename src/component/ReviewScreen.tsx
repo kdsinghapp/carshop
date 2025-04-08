@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, ToastAndroid, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../App';
 
 import AddReviewModal from '../screen/Feature/AddReviewModal';
 import Icon from './Icon';
 import Edit from '../assets/svg/messageedit.svg';
+import { addstorereview, reviewdelete, updatestorereview } from '../redux/Api/apiRequests';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import UpdateReviewModal from '../screen/Feature/UpdateReviewModal';
+import images, { icon } from './Image';
 
 
 type ReviewScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Review'>;
-type Props = { navigation: ReviewScreenNavigationProp,Reviews:any };
+type Props = { navigation: ReviewScreenNavigationProp, Reviews: any, store_id: number, handleReviewList: () => void; };
 
 interface Review {
   id: number;
@@ -19,24 +23,122 @@ interface Review {
   comment: string;
   created_at: string;
   profile_image: string;
+  user_id: number
 }
 
-const ReviewScreen: React.FC<Props> = ({ navigation,Reviews }) => {
+const ReviewScreen: React.FC<Props> = ({ navigation, Reviews, store_id, handleReviewList }) => {
   const renderStars = (rating: number) => {
     return '★'.repeat(rating) + '☆'.repeat(5 - rating);
   };
   const [modalVisible, setModalVisible] = useState(false);
+  const [isUpdateModal, setisUpdateModal] = useState(false);
   const [reviews, setReviews] = useState<Review[]>(Reviews);
+  const [reviewData, setreviewData] = useState('');
 
-  const handleAddReview = (reviewText: string, rating: number) => {
-    setReviews([...reviews, { id: Date.now().toString(), name: 'User', review: reviewText, rating }]);
+  const [User, setUser] = useState<string>();
+
+  useEffect(() => {
+
+    const getUser = async () => {
+      const data = await AsyncStorage.getItem('user');
+      const user = JSON.parse(data);
+      setUser(user)
+    }
+    getUser()
+  }, [Reviews])
+  const handleAddReview = async (reviewText: string, rating: number,) => {
+    try {
+
+      const body = {
+        car_service_store_id: store_id,
+        user_id: User?.id,
+        rating: rating,
+        comment: reviewText,
+      };
+
+      const res = await addstorereview(body); // Await the API call
+
+      if (res.success) {
+        ToastAndroid.show('Review submitted successfully!', ToastAndroid.SHORT);
+        await handleReviewList()
+        // You can also use LONG or CENTER depending on UX preference
+      } else {
+        ToastAndroid.show(res.message || 'Failed to submit review.', ToastAndroid.SHORT);
+        await handleReviewList()
+      }
+   
+    } catch (error) {
+      console.error('Review Submit Error:', error);
+      ToastAndroid.show('An error occurred. Please try again.', ToastAndroid.SHORT);
+      await handleReviewList()
+    }
+  };
+
+  const handleUpdateReview = async (reviewText: string, rating: number,review_id:string) => {
+    try {
+
+      const body = {
+        car_service_store_id: store_id,
+        user_id: User?.id,
+        rating: rating,
+        comment: reviewText,
+        review_id:review_id
+      };
+
+    
+
+      const res = await updatestorereview(body); // Await the API call
+
+      if (res.success) {
+        ToastAndroid.show('Review submitted successfully!', ToastAndroid.SHORT);
+        await handleReviewList()
+        // You can also use LONG or CENTER depending on UX preference
+      } else {
+        ToastAndroid.show(res.message || 'Failed to submit review.', ToastAndroid.SHORT);
+        await handleReviewList()
+      }
+
+    } catch (error) {
+      console.error('Review Submit Error:', error);
+      ToastAndroid.show('An error occurred. Please try again.', ToastAndroid.SHORT);
+      await handleReviewList()
+    }
+  };
+
+
+  const deleteReview = async (review_id) => {
+    Alert.alert(
+      'Confirm Deletion',
+      'Are you sure you want to delete this review?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Deletion cancelled'),
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: async () => {
+            try {
+              const res = await reviewdelete(review_id, User?.id);
+              console.log('===============res=====================', res);
+              await handleReviewList()
+            } catch (error) {
+              console.error('Error deleting review:', error);
+            }
+          },
+          style: 'destructive',
+        },
+      ],
+      { cancelable: true }
+    );
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Review</Text>
-        <TouchableOpacity onPress={() => setModalVisible(true)} style={{flexDirection:'row',alignItems:'center'}}>
+        <TouchableOpacity onPress={() => setModalVisible(true)} style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Edit size={16} />
 
           <Text style={styles.addReview}>
@@ -56,6 +158,33 @@ const ReviewScreen: React.FC<Props> = ({ navigation,Reviews }) => {
               <Text style={styles.review}>{item.comment}</Text>
               <Text style={styles.rating}>{renderStars(item.rating)}</Text>
             </View>
+            {item.user_id === User?.id &&
+            <View style={{marginLeft:15}}>
+            <TouchableOpacity style={{
+            
+            }}
+            onPress={()=>{
+              setreviewData(item)
+              setisUpdateModal(true)
+            }}
+            >
+
+              <Edit size={15} />
+            </TouchableOpacity>
+            <TouchableOpacity style={{
+            marginTop:10
+            }}
+            onPress={()=>{
+              setreviewData(item)
+              deleteReview(item?.id)
+            }}
+            >
+
+              <Icon  source={icon.delete} size={20} />
+            </TouchableOpacity>
+            </View>
+            }
+
           </View>
         )}
       />
@@ -64,6 +193,13 @@ const ReviewScreen: React.FC<Props> = ({ navigation,Reviews }) => {
         onClose={() => setModalVisible(false)}
         onSubmit={handleAddReview}
       />
+
+    <UpdateReviewModal
+  visible={isUpdateModal}
+  review={reviewData}
+  onClose={() => setisUpdateModal(false)}
+  onSubmitSuccess={handleUpdateReview}
+/>
     </View>
   );
 };
@@ -88,7 +224,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'blue',
     fontWeight: '500',
-    marginLeft:5
+    marginLeft: 5
   },
   card: {
     flexDirection: 'row',
@@ -103,17 +239,18 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     marginRight: 10,
-    backgroundColor:'#f0f0f0'
+    backgroundColor: '#f0f0f0'
   },
   textContainer: {
-    flex: 1,
+  
+    width:'70%'
   },
   name: {
     fontSize: 16,
     fontWeight: 'bold',
   },
   review: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#666',
   },
   rating: {

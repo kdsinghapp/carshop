@@ -82,6 +82,7 @@ import HolidayListScreen from "../screen/Feature/hr/HolidayListScreen";
 import AddHolidayForm from "../screen/Feature/hr/AddHolidayForm";
 import RequestLeave from "../screen/Feature/hr/RequestLeave";
 import AddLeaveRequestForm from "../screen/Feature/hr/AddLeaveRequestForm";
+import SelectLocation from "../component/SelectLocation";
 
 const _routes = {
   REGISTRATION_ROUTE: [
@@ -367,6 +368,10 @@ const _routes = {
     {
       name: ScreenNameEnum.PROFILE_SCREEN,
       Component: Profile,
+    },
+    {
+      name: ScreenNameEnum.SelectLocation,
+      Component: SelectLocation,
     },
 
 

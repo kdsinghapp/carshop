@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, SafeAreaView } from 'react-native';
 import Skeleton from 'react-native-reanimated-skeleton';
 import VerticalList from '../../component/VerticalList';
 import CustomHeader from '../../component/CustomHeaderProps';
@@ -37,8 +37,9 @@ const AllServices: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <CustomHeader navigation={navigation} title="Book Service" onSkipPress={() => { }} showSkip={false} />
-
+       <SafeAreaView style={{flex:1}}>
+      <CustomHeader navigation={navigation} title="Book Service" onSkipPress={() => { }} showSkip={false}  style={{marginTop:25}}/>
+     
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ marginTop: 20 }}>
         <Skeleton
           isLoading={loading}
@@ -65,6 +66,7 @@ const AllServices: React.FC<Props> = ({ navigation }) => {
           }
         </Skeleton>
       </ScrollView>
+      </SafeAreaView>
     </View>
   );
 };

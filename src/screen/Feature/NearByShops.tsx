@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, SafeAreaView } from 'react-native';
 import CustomHeader from '../../component/CustomHeaderProps';
 import { color } from '../../constant';
 import VerticalshopList from '../../component/VerticalshopList';
@@ -48,8 +48,11 @@ const NearByShops: React.FC<Props> = ({ navigation }) => {
     };
 
     return (
+        <SafeAreaView style={{flex:1}}>
+
+ 
         <View style={styles.container}>
-            <CustomHeader navigation={navigation} title="Near By Shops" onSkipPress={() => { }} showSkip={false} />
+            <CustomHeader navigation={navigation} title="Near By Shops" onSkipPress={() => { }} showSkip={false}  style={{marginTop:25}}/>
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
                 
                 {/* Ads Section */}
@@ -92,6 +95,7 @@ const NearByShops: React.FC<Props> = ({ navigation }) => {
                 </View>
             </ScrollView>
         </View>
+        </SafeAreaView>
     );
 };
 

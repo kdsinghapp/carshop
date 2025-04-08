@@ -88,7 +88,8 @@ enum ScreenNameEnum {
   PriceGuide='PriceGuide',
   BookingList='BookingList',
   LeaveReview='LeaveReview',
-  HelpCenter='HelpCenter'
+  HelpCenter='HelpCenter',
+  SelectLocation='SelectLocation'
 
 
 }

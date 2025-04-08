@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Icon from './Icon';
 import { icon } from './Image';
+import ScreenNameEnum from '../routes/screenName.enum';
 
 // Define the data type for each garage item
 interface StoreItem {
@@ -35,7 +36,11 @@ const StoreList: React.FC<StoreListProps> = ({ data }) => {
       keyExtractor={(item) => item.id}
       contentContainerStyle={styles.listContainer}
       renderItem={({ item }) => (
-        <View style={styles.card}>
+        <TouchableOpacity style={styles.card}
+        onPress={()=>{
+          navigation.navigate(ScreenNameEnum.GARAGE_DETAILS,{id:item?.id})
+        }}
+        >
           <Image source={{uri:item.profile_image}} style={styles.image} resizeMode="contain" />
           <View style={styles.textContainer}>
             <Text style={styles.title}>{item.name}</Text>
@@ -56,7 +61,7 @@ const StoreList: React.FC<StoreListProps> = ({ data }) => {
           </View>
           
           <Image source={icon.heart} style={{height:30,width:30}} resizeMode="contain" />
-        </View>
+        </TouchableOpacity>
       )}
     />
   );

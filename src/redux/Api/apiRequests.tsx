@@ -5,6 +5,7 @@ import { endpoint } from './endpoints';
 import { errorToast, successToast } from '../../configs/customToast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { callMultipleApis } from './index';
+import { ToastAndroid } from 'react-native';
 
 // Interface for API request
 interface ApiRequest {
@@ -127,13 +128,14 @@ const login = async (body: any) => {
 
         if (response.status) {
 
-            successToast(response?.message)
+
+            ToastAndroid.show('Login Successfully', ToastAndroid.SHORT);
             await AsyncStorage.setItem('token', response?.token)
             return { success: true, message: response?.message, user: response.user || null };
 
         }
         else {
-            errorToast(response?.message)
+            ToastAndroid.show(response?.message, ToastAndroid.SHORT);
 
             return { success: false, message: "Unexpected response", user: null };
         }
@@ -188,7 +190,49 @@ const otp_Verify = async (email: string, otp: string,) => {
         return { success: false, message: error.message, token: null };
     }
 };
-
+const createpassword = async (body: any) => {
+    console.log('=========createpassword===========================',body);
+    
+    
+        const apiRequests: ApiRequest[] = [
+            {
+                endpoint: endpoint.setpassword,
+                method: 'POST',
+                data: body,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            },
+        ];
+    
+        try {
+            // Call the multiple APIs and await the result
+            const results = await callMultipleApis(apiRequests);
+            console.log('API Response:', results);
+    
+    
+            const response = results[0];
+    
+    
+            if (response.status) {
+    
+                successToast(response?.message)
+            
+                return { success: true, message: response?.message, user: response.user || null };
+    
+            }
+            else {
+                errorToast(response?.message)
+    
+                return { success: false, message: "Unexpected response", user: null };
+            }
+    
+    
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return { success: false, message: error.message, user: null };
+        }
+    };
 const getcitylist = async () => {
 
 
@@ -382,17 +426,19 @@ const getcarservicestoreid = async (id:string) => {
     }
 };
 
-const createpassword = async (body: any) => {
+const addstorereview = async (body: any) => {
 console.log('=========createpassword===========================',body);
+const token = await AsyncStorage.getItem('token')
 
 
     const apiRequests: ApiRequest[] = [
         {
-            endpoint: endpoint.setpassword,
+            endpoint: endpoint.addstorereview,
             method: 'POST',
             data: body,
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         },
     ];
@@ -407,16 +453,10 @@ console.log('=========createpassword===========================',body);
 
 
         if (response.status) {
-
-            successToast(response?.message)
-        
             return { success: true, message: response?.message, user: response.user || null };
-
         }
         else {
-            errorToast(response?.message)
-
-            return { success: false, message: "Unexpected response", user: null };
+            return { success: false, message: response?.message, user: null };
         }
 
 
@@ -425,5 +465,123 @@ console.log('=========createpassword===========================',body);
         return { success: false, message: error.message, user: null };
     }
 };
+const updatestorereview = async (body: any) => {
+console.log('=========createpassword===========================',body);
+const token = await AsyncStorage.getItem('token')
 
-export { login, otp_Verify,getcarservicestoreid, send_Otp, getcitylist, register ,getneaybycarservicestore,createpassword,getdashboard,getservicesbycategoryid }  
+
+    const apiRequests: ApiRequest[] = [
+        {
+            endpoint: endpoint.updatestorereview,
+            method: 'POST',
+            data: body,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+        console.log('API Response:', results);
+
+
+        const response = results[0];
+
+
+        if (response.status) {
+            return { success: true, message: response?.message, user: response.user || null };
+        }
+        else {
+            return { success: false, message: response?.message, user: null };
+        }
+
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, user: null };
+    }
+};
+const reviewdelete = async (review_id:string,user_id:string) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.deletereview+`review_id=${review_id}&user_id=${user_id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.data, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
+const listaddress = async (id:string,) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.listaddress+`${id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+console.log('================response====================',response);
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.data, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
+
+export { login,updatestorereview,listaddress,reviewdelete, otp_Verify,getcarservicestoreid, addstorereview,send_Otp, getcitylist, register ,getneaybycarservicestore,createpassword,getdashboard,getservicesbycategoryid }  

@@ -42,7 +42,7 @@ interface Store {
   sunday_open: string;
   sunday_close: string;
 }
- interface GalleryItem {
+interface GalleryItem {
   image: string;
   title: string;
   description: string;
@@ -50,7 +50,7 @@ interface Store {
   description_no: string;
 }
 
- interface Service {
+interface Service {
   id: number;
   name: string;
   description: string;
@@ -69,7 +69,7 @@ interface Review {
   profile_image: string;
 }
 
- interface Tab {
+interface Tab {
   name: string; // i.e. message.about_us
 }
 
@@ -102,9 +102,9 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [workingDays, setWorkingDays] = useState<WorkingDay[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    allservices()
+    garageDetails()
   }, [id])
-  const allservices = async () => {
+  const garageDetails = async () => {
     setLoading(true);
     const res = await getcarservicestoreid(id);
     if (res.success) {
@@ -119,6 +119,25 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
     }
     setLoading(false);
   };
+  const garageDetails2 = async () => {
+    console.log('=>>>>>>.. garageDetails2');
+
+    const res = await getcarservicestoreid(id);
+    if (res.success) {
+      setStoreDetails(res?.data);
+      setStore(res?.data?.store)
+      setGallery(res?.data?.gallery)
+      setServices(res?.data?.services)
+      setReviews(res?.data?.reviews)
+      setTabs(res?.data?.tabs)
+      setWorkingDays(res?.data?.working_days)
+
+    }
+    setshowTab('About us')
+    setLoading(false);
+  };
+
+
   const getDayName = (key: string) => {
     const days: { [key: string]: string } = {
       'message.monday': 'Monday',
@@ -133,7 +152,7 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
   };
   const openMapLocation = (latitude: string, longitude: string) => {
     const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
-  
+
     Linking.canOpenURL(url)
       .then((supported) => {
         if (supported) {
@@ -144,6 +163,7 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
       })
       .catch((err) => console.error('An error occurred', err));
   };
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -153,14 +173,14 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
       ) : (
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Garage Image */}
-          <Image source={{uri:Store?.profile_image}} style={styles.garageImage} resizeMode="cover" />
+          <Image source={{ uri: Store?.profile_image }} style={styles.garageImage} resizeMode="cover" />
 
 
-          <TouchableOpacity 
-          onPress={()=>{
-            navigation.goBack()
-          }}
-          style={{ position: 'absolute', top: 40, left: 10 }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack()
+            }}
+            style={{ position: 'absolute', top: 40, left: 10 }}>
             <Icon source={images.BackNavs2} size={30} />
           </TouchableOpacity>
           <TouchableOpacity style={{ position: 'absolute', top: 40, right: 10 }}>
@@ -247,13 +267,13 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
                   <Text style={{ fontWeight: '500', fontSize: 12 }}>{Store?.description}</Text>
                 </View>
                 <View style={{ marginVertical: 15 }}>
-                  <Text style={{ fontWeight: '800', fontSize: 18,marginBottom:10 }}>Working Hours</Text>
+                  <Text style={{ fontWeight: '800', fontSize: 18, marginBottom: 10 }}>Working Hours</Text>
                   {workingDays?.map((item, index) => (
-        <Text key={index} style={{ fontWeight: '500', fontSize: 14, marginVertical: 4, }}>
-          {getDayName(item.day)}: {item.open} - {item.close}
-        </Text>
-      ))}
-                
+                    <Text key={index} style={{ fontWeight: '500', fontSize: 14, marginVertical: 4, }}>
+                      {getDayName(item.day)}: {item.open} - {item.close}
+                    </Text>
+                  ))}
+
 
                 </View>
                 <View style={{ marginVertical: 15 }}>
@@ -272,15 +292,15 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
                       style={{ height: hp(20), borderRadius: 20, width: wp(90), alignItems: 'center', justifyContent: 'center' }}
                     >
                       <TouchableOpacity
-                      onPress={()=>{
-                        openMapLocation(Store?.latitude,Store?.longitude)
-                      }}
+                        onPress={() => {
+                          openMapLocation(Store?.latitude, Store?.longitude)
+                        }}
                       >
-                      <Image
-                        source={images.mapbtn}
+                        <Image
+                          source={images.mapbtn}
 
-                        style={{ height: 100, borderRadius: 20, width: 100, alignSelf: 'center' }}
-                      />
+                          style={{ height: 100, borderRadius: 20, width: 100, alignSelf: 'center' }}
+                        />
                       </TouchableOpacity>
                     </ImageBackground>
 
@@ -293,18 +313,47 @@ const GarageDetails: React.FC<{ navigation: any }> = ({ navigation }) => {
             {showTab === 'Services' &&
 
               <>
-                <VerticalList data={services} navigation={navigation} showBtn={false} />
+                {services?.length > 0 ? <VerticalList data={services} navigation={navigation} showBtn={false} /> :
+
+
+                  <View style={{
+                    height: 50, alignItems: 'center', justifyContent: 'center'
+                  }}>
+                    <Text style={{
+                      color: '#000', fontWeight: '600'
+                    }}>No Services</Text>
+                  </View>
+                }
               </>}
             {showTab === 'Gallery' &&
 
               <View style={{ flex: 1 }}>
-                <GalleryScreen gallery={gallery} navigation={navigation}/>
+                {gallery?.length > 0 ? <GalleryScreen gallery={gallery} navigation={navigation} /> :
+                  <View style={{
+                    height: 50, alignItems: 'center', justifyContent: 'center'
+                  }}>
+                    <Text style={{
+                      color: '#000', fontWeight: '600'
+                    }}>No Gallery</Text>
+                  </View>
+                }
               </View>}
             {showTab === 'Review' &&
 
               <View style={{ flex: 1 }}>
-                <ReviewScreen  Reviews={reviews} navigation={navigation}/>
-              </View>}
+                {reviews?.length > 0 ? <ReviewScreen Reviews={reviews} navigation={navigation}
+                  store_id={Store?.id}
+                  handleReviewList={garageDetails2} /> :
+                  <View style={{
+                    height: 50, alignItems: 'center', justifyContent: 'center'
+                  }}>
+                    <Text style={{
+                      color: '#000', fontWeight: '600'
+                    }}>No Review</Text>
+                  </View>
+                }
+              </View>
+            }
             <CustomButton
               title='Book'
 
