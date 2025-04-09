@@ -9,7 +9,9 @@
         TouchableOpacity,
         Image,
         ImageBackground,
-        Linking
+        Linking,
+        Alert,
+        BackHandler
     } from 'react-native';
     import images, { icon } from '../../component/Image';
     import { color } from '../../constant';
@@ -18,6 +20,8 @@
     import CustomButton from '../../component/CustomButton';
     import ScreenNameEnum from '../../routes/screenName.enum';
     import CustomTextInput from '../../component/TextInput';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
     
     const CompanyLogin: React.FC = ({ navigation }) => {
         const [errors, setErrors] = useState({
@@ -42,7 +46,35 @@
             navigation.navigate(ScreenNameEnum.BOTTAM_TAB);
            
         };
+        const signInHandler = async (value: string): void => {
+
+            await AsyncStorage.setItem('type', value)
     
+            if (value === 'User') {
+    
+                navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
+            }
+            else {
+                navigation.navigate(ScreenNameEnum.COMPANY_LOGIN);
+            }
+        };
+
+        useFocusEffect(
+            React.useCallback(() => {
+              const backAction = () => {
+                Alert.alert('Exit App', 'Are you sure you want to exit?', [
+                  { text: 'Cancel', style: 'cancel' },
+                  { text: 'Yes', onPress: () => BackHandler.exitApp() },
+                ]);
+                return true;
+              };
+              const backHandler = BackHandler.addEventListener(
+                'hardwareBackPress',
+                backAction
+              );
+              return () => backHandler.remove();
+            }, [])
+          );
         return (
             <View style={styles.container}>
                 <SafeAreaView>
@@ -120,6 +152,16 @@
                         </ImageBackground>
                     </View>
                 </SafeAreaView>
+                <TouchableOpacity 
+            onPress={()=>{
+                signInHandler('User')
+            }}
+            style={{
+                    
+                        bottom:0,alignSelf:'center'
+                    }}>
+                        <Text style={{color:'#0063FF',fontWeight:'800',fontSize:14}}>User app</Text>
+                    </TouchableOpacity>
             </View>
         );
     };
@@ -135,7 +177,7 @@
         logoContainer: {
             alignItems: 'center',
             justifyContent: 'center',
-            marginTop: hp(8),
+            marginTop: hp(5),
         },
         logo: {
             height: 120,
@@ -143,7 +185,7 @@
         },
         inputContainer: {
             paddingHorizontal: 25,
-            marginTop: hp(5),
+     
         },
         welcomeText: {
             fontWeight: '800',

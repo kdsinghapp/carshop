@@ -543,6 +543,46 @@ const reviewdelete = async (review_id:string,user_id:string) => {
         return { success: false, message: error.message, state: [] };
     }
 };
+const getuser = async (user_id:string,) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.getuser+`user_id=${user_id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.user, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
 const listaddress = async (id:string,) => {
 
     const token =await AsyncStorage.getItem('token')
@@ -623,5 +663,205 @@ console.log('================response====================',response);
         return { success: false, message: error.message, state: [] };
     }
 };
+const updateaddress = async (user_id:string,title:string,address:string,latitude:string,longitude:string,is_default:number,address_id:string) => {
 
-export { addaddress,login,updatestorereview,listaddress,reviewdelete, otp_Verify,getcarservicestoreid, addstorereview,send_Otp, getcitylist, register ,getneaybycarservicestore,createpassword,getdashboard,getservicesbycategoryid }  
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.updateaddress+`user_id=${user_id}&title=${title}&address=${address}&latitude=${latitude}&longitude=${longitude}&is_default=${is_default}&address_id=${address_id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+console.log('================response====================',response);
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.data, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
+const deleteaddress = async (user_id:string,address_id:string,) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.deleteaddress+`address_id=${address_id}&user_id=${user_id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.message, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
+
+const getbookmarkslist = async (user_id:string,longitude:string,latitude:string) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.getbookmarkslist+`user_id=${user_id}&latitude=${latitude}&longitude=${longitude}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.data, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
+const removebookmark = async (bookmark_id:string,) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.removebookmark+`bookmark_id=${bookmark_id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.message, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
+const addbookmark = async (user_id:string,store_id:string,) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.addbookmark+`user_id=${user_id}&car_service_store_id=${store_id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.message, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
+
+
+export {addbookmark, removebookmark,getuser,getbookmarkslist,updateaddress,addaddress,deleteaddress,login,updatestorereview,listaddress,reviewdelete, otp_Verify,getcarservicestoreid, addstorereview,send_Otp, getcitylist, register ,getneaybycarservicestore,createpassword,getdashboard,getservicesbycategoryid }  

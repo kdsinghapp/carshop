@@ -26,18 +26,7 @@ const LoginOption: React.FC = () => {
     const navigation = useNavigation<NavigationProp>();
 
     // Function to handle login navigation
-    const signInHandler = async (value: string): void => {
 
-        await AsyncStorage.setItem('type', value)
-
-        if (value === 'User') {
-
-            navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
-        }
-        else {
-            navigation.navigate(ScreenNameEnum.COMPANY_LOGIN);
-        }
-    };
 
 
 

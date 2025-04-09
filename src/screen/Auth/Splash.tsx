@@ -27,11 +27,11 @@ const Splash: React.FC = () => {
                 if (token) {
                     navigation.replace(ScreenNameEnum.BOTTAM_TAB);
                 } else {
-                    navigation.replace(ScreenNameEnum.LoginOption); // Replace with your login screen enum
+                    navigation.replace(ScreenNameEnum.LOGIN_SCREEN); // Replace with your login screen enum
                 }
             } catch (error) {
                 console.error("Error fetching token:", error);
-                navigation.replace(ScreenNameEnum.LoginOption); // fallback on error
+                navigation.replace(ScreenNameEnum.LOGIN_SCREEN); // fallback on error
             }
         };
 

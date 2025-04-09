@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, FlatList, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, FlatList, Text, Image, TouchableOpacity, StyleSheet, Dimensions, ToastAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Icon from './Icon';
 import { icon } from './Image';
 import ScreenNameEnum from '../routes/screenName.enum';
+import { addbookmark } from '../redux/Api/apiRequests';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define the data type for each garage item
 interface StoreItem {
@@ -23,13 +25,25 @@ interface StoreItem {
 // Define props for the component
 interface StoreListProps {
   data: StoreItem[];
+  refresh:()=>void;
 }
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-const StoreList: React.FC<StoreListProps> = ({ data }) => {
+const StoreList: React.FC<StoreListProps> = ({ data,refresh }) => {
   const navigation = useNavigation();
 
+
+  const AddBookmark =async(id:string)=>{
+    const data = await AsyncStorage.getItem('user');
+    const user = JSON.parse(data);
+    const res = await addbookmark(user?.id,id)
+
+    if(res?.success){
+      ToastAndroid.show('Store Add from bookmarks successfully!', ToastAndroid.SHORT);
+    }
+    refresh()
+  }
   return (
     <FlatList
       data={data}
@@ -59,8 +73,14 @@ const StoreList: React.FC<StoreListProps> = ({ data }) => {
               </View>
             </View>
           </View>
-          
+          <TouchableOpacity
+          onPress={()=>{
+            AddBookmark(item?.id)
+          }}
+          >
+
           <Image source={icon.heart} style={{height:30,width:30}} resizeMode="contain" />
+          </TouchableOpacity>
         </TouchableOpacity>
       )}
     />

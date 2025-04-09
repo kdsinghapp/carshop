@@ -1,16 +1,17 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Dimensions, Alert, ToastAndroid } from 'react-native';
 import Icon from '../../component/Icon';
 import images, { icon, } from '../../component/Image';
 import CustomButton from '../../component/CustomButton';
 import ScreenNameEnum from '../../routes/screenName.enum';
-import { listaddress } from '../../redux/Api/apiRequests';
+import { deleteaddress, listaddress } from '../../redux/Api/apiRequests';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MapPickerModal2 from './MapPicker2';
 import Edit from '../../assets/svg/messageedit.svg';
 import Skeleton from 'react-native-reanimated-skeleton';
 import { hp, wp } from '../../component/Constant';
+import EditAddressModal from './EditAddressModal';
 
 interface User {
   id: number;
@@ -38,6 +39,8 @@ const ManageAddress: React.FC = ({ navigation }) => {
   const [User, setUser] = useState<string>();
   const [AddressList, setAddressList] = useState<Address[]>([]);
   const [pickupModalVisible, setpickupModalVisible] = useState(false)
+  const [editModalVisible, setEditModalVisible] = useState(false)
+  const [selectedAddressData, setselectedAddressData] = useState(false)
   const [PickupLocation, setPickupLocation] = useState('')
   const [PickupLocationName, setPickupLocationName] = useState(false)
   const [loading, setLoading] = useState<boolean>(true);
@@ -55,11 +58,27 @@ const ManageAddress: React.FC = ({ navigation }) => {
   }, [])
   useEffect(() => {
     getAddress()
-  }, [User?.id,pickupModalVisible])
+  }, [User?.id])
+  useEffect(() => {
+    getAddress2()
+  }, [pickupModalVisible,editModalVisible])
 
 
   const getAddress = async () => {
     setLoading(true);
+    try {
+      const res = await listaddress(User?.id);
+      if (res.success) {
+        setAddressList(res.data);
+      }
+    } catch (error) {
+      console.error('Error fetching address:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const getAddress2 = async () => {
+
     try {
       const res = await listaddress(User?.id);
       if (res.success) {
@@ -80,94 +99,134 @@ const ManageAddress: React.FC = ({ navigation }) => {
   };
 
 
+  const addressdelete = async (id) => {
+    const res = await deleteaddress(User?.id, id);
 
+    if (res?.success) {
+
+      await getAddress2()
+      ToastAndroid.show('Address Delete Successfully!', ToastAndroid.SHORT);
+    }
+
+  };
   return (
     <View style={{
-      flex:1
+      flex: 1
     }}>
-    {loading ? (
-    <View style={{marginTop:hp(28) }}>
-         <Skeleton
-      isLoading={loading}
-      
-      layout={[
-        { key: 'header', width: width * 0.9, height:60, marginTop: 20, marginBottom: 10 },
-        { key: 'line1', width: width * 0.9, height: 60, marginBottom: 10 },
-        { key: 'line2', width: width * 0.9, height: 60, marginBottom: 10 },
-        { key: 'line3', width: width * 0.9, height: 60, marginBottom: 10 },
-        { key: 'button', width: width * 0.9, height: 50, marginTop: 20 },
-      ]}
-    />
-    </View>
-    ):(
-    
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack()
-          }}
-        >
-          <Icon source={images.BackNavs2} size={30} />
-        </TouchableOpacity>
-        <Text style={styles.title}>Manage Address</Text>
-      </View>
+      {loading ? (
+        <View style={{ marginTop: hp(28) }}>
+          <Skeleton
+            isLoading={loading}
 
-      {/* Address List */}
-      <View>
-        {AddressList?.length > 0 ? <FlatList
-          data={AddressList}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.addressItem}>
-              <Icon source={checkIcon(item.title)} size={40} style={styles.icon} />
-              <View style={styles.addressText}>
-                <Text style={styles.addressTitle}>{item.title}</Text>
-                <Text style={styles.addressDetails}>{item.address}</Text>
-              </View>
-              <View style={styles.addressText}>
-              <TouchableOpacity style={{
-            
-          }}
-        
-          >
+            layout={[
+              { key: 'header', width: width * 0.9, height: 60, marginTop: 20, marginBottom: 10 },
+              { key: 'line1', width: width * 0.9, height: 60, marginBottom: 10 },
+              { key: 'line2', width: width * 0.9, height: 60, marginBottom: 10 },
+              { key: 'line3', width: width * 0.9, height: 60, marginBottom: 10 },
+              { key: 'button', width: width * 0.9, height: 50, marginTop: 20 },
+            ]}
+          />
+        </View>
+      ) : (
 
-            <Edit size={15} />
-          </TouchableOpacity>
-          <TouchableOpacity style={{
-          marginTop:10
-          }}
-     
-          >
-
-            <Icon  source={icon.delete} size={20} />
-          </TouchableOpacity>
-              </View>
-            </View>
-          )}
-        /> :
-          <View style={{
-            height: 50, alignItems: 'center', justifyContent: 'center'
-          }}>
-            <Text style={{
-              color: '#000', fontWeight: '600'
-            }}>No Address</Text>
+        <View style={styles.container}>
+          {/* Header */}
+          <View style={styles.header}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack()
+              }}
+            >
+              <Icon source={images.BackNavs2} size={30} />
+            </TouchableOpacity>
+            <Text style={styles.title}>Manage Address</Text>
           </View>
-        }
-      </View>
-      {/* Add New Button */}
-      <TouchableOpacity
-      onPress={()=>{
-        setpickupModalVisible(true)
-      }}
-      style={styles.addNewButton}>
-        <Text style={styles.addNewText}>Add New</Text>
-      </TouchableOpacity>
-      <MapPickerModal2 setModalVisible={setpickupModalVisible} modalVisible={pickupModalVisible} sendLocation={setPickupLocation} setLocationName={setPickupLocationName} />
 
-    </View>
-    )}
+          {/* Address List */}
+          <View>
+            {AddressList?.length > 0 ? <FlatList
+              data={AddressList}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={styles.addressItem}>
+                  <Icon source={checkIcon(item.title)} size={40} style={styles.icon} />
+                  <View style={styles.addressText}>
+                    <Text style={styles.addressTitle}>{item.title}</Text>
+                    <Text style={styles.addressDetails}>{item.address}</Text>
+                  </View>
+                  <View style={styles.addressText}>
+                    <TouchableOpacity style={{
+
+                    }}
+
+                    onPress={()=>{
+                      setEditModalVisible(true)
+                      setselectedAddressData(item)
+                    }}
+                    >
+
+                      <Edit size={15} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{
+                      marginTop: 10
+                    }}
+                      onPress={() => {
+                        Alert.alert(
+                          "Confirm Delete",
+                          "Are you sure you want to delete this address?",
+                          [
+                            {
+                              text: "Cancel",
+                              style: "cancel"
+                            },
+                            {
+                              text: "Delete",
+                              style: "destructive",
+                              onPress: () => {
+                                addressdelete(item.id)
+                              }
+                            }
+                          ]
+                        );
+
+                      }}
+                    >
+
+                      <Icon source={icon.delete} size={20} />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+            /> :
+              <View style={{
+                height: 50, alignItems: 'center', justifyContent: 'center'
+              }}>
+                <Text style={{
+                  color: '#000', fontWeight: '600'
+                }}>No Address</Text>
+              </View>
+            }
+          </View>
+          {/* Add New Button */}
+          <TouchableOpacity
+            onPress={() => {
+              setpickupModalVisible(true)
+            }}
+            style={styles.addNewButton}>
+            <Text style={styles.addNewText}>Add New</Text>
+          </TouchableOpacity>
+          <MapPickerModal2 setModalVisible={setpickupModalVisible}
+           modalVisible={pickupModalVisible} 
+           sendLocation={setPickupLocation}
+            setLocationName={setPickupLocationName} />
+          <EditAddressModal
+  modalVisible={editModalVisible}
+  setModalVisible={setEditModalVisible}
+  addressData={selectedAddressData} // pass full object from your API
+  setLocationName={(name) => setPickupLocationName(name)}
+/>
+        </View>
+      )}
     </View>
   );
 };
@@ -203,7 +262,7 @@ const styles = StyleSheet.create({
   },
   addressText: {
 
-    width:wp(65)
+    width: wp(65)
   },
   addressTitle: {
     fontSize: 16,

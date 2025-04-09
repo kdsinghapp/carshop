@@ -9,7 +9,8 @@ import {
     Image,
     ImageBackground,
     Alert,
-    ActivityIndicator
+    ActivityIndicator,
+    BackHandler
 } from 'react-native';
 import images, { icon } from '../../component/Image';
 import { color } from '../../constant';
@@ -20,6 +21,7 @@ import ScreenNameEnum from '../../routes/screenName.enum';
 import CustomTextInput from '../../component/TextInput';
 import { login } from '../../redux/Api/apiRequests';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Login: React.FC = ({ navigation }) => {
     const [identity, setIdentity] = useState('');
@@ -76,7 +78,36 @@ const Login: React.FC = ({ navigation }) => {
             setLoading(false);
         }
     };
+    const signInHandler = async (value: string): void => {
 
+        await AsyncStorage.setItem('type', value)
+
+        if (value === 'User') {
+
+            navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
+        }
+        else {
+            navigation.navigate(ScreenNameEnum.COMPANY_LOGIN);
+        }
+    };
+
+
+    useFocusEffect(
+        React.useCallback(() => {
+          const backAction = () => {
+            Alert.alert('Exit App', 'Are you sure you want to exit?', [
+              { text: 'Cancel', style: 'cancel' },
+              { text: 'Yes', onPress: () => BackHandler.exitApp() },
+            ]);
+            return true;
+          };
+          const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+          );
+          return () => backHandler.remove();
+        }, [])
+      );
     return (
         <View style={styles.container}>
             <SafeAreaView>
@@ -146,8 +177,20 @@ const Login: React.FC = ({ navigation }) => {
                             <Text style={styles.googleText}>Sign in with Google</Text>
                         </TouchableOpacity>
                     </ImageBackground>
-                </View>
+                    </View>
+                
+          
             </SafeAreaView>
+            <TouchableOpacity 
+            onPress={()=>{
+                signInHandler('company')
+            }}
+            style={{
+                       
+                        bottom:0,alignSelf:'center'
+                    }}>
+                        <Text style={{color:'#0063FF',fontWeight:'800',fontSize:14}}>Partner app</Text>
+                    </TouchableOpacity>
         </View>
     );
 };
