@@ -782,6 +782,84 @@ const getbookmarkslist = async (user_id:string,longitude:string,latitude:string)
         return { success: false, message: error.message, state: [] };
     }
 };
+const chatuserlist = async (user_id:string,) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.chatuserlist+`${user_id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.data, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
+const getuserchat = async (user_id:string,receiver_id:string) => {
+
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+
+            endpoint: endpoint.getuserchat+`sender_user_id=${user_id}&receiver_user_id=${receiver_id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+
+
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+
+        const response = results[0];
+
+
+        if (response?.status) {
+           
+            return { success: true, message: "Success", data: response?.data, };
+        }
+        else {
+
+            return { success: false, message: "Unexpected response", data: [] };
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, state: [] };
+    }
+};
 const removebookmark = async (bookmark_id:string,) => {
 
     const token =await AsyncStorage.getItem('token')
@@ -862,6 +940,46 @@ const addbookmark = async (user_id:string,store_id:string,) => {
         return { success: false, message: error.message, state: [] };
     }
 };
+const sendchatmessage = async (body: any) => {
+    // Prepare the request body for login API
+    const token =await AsyncStorage.getItem('token')
+
+    const apiRequests: ApiRequest[] = [
+        {
+            endpoint: endpoint.sendchatmessage,
+            method: 'POST',
+            data: body,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        },
+    ];
+
+    try {
+        // Call the multiple APIs and await the result
+        const results = await callMultipleApis(apiRequests);
+        console.log('API Response:', results);
 
 
-export {addbookmark, removebookmark,getuser,getbookmarkslist,updateaddress,addaddress,deleteaddress,login,updatestorereview,listaddress,reviewdelete, otp_Verify,getcarservicestoreid, addstorereview,send_Otp, getcitylist, register ,getneaybycarservicestore,createpassword,getdashboard,getservicesbycategoryid }  
+        const response = results[0];
+
+
+        if (response.status) {
+
+            return { success: true, message: response?.message,  };
+
+        }
+        else {
+       
+            return { success: false, message: "Unexpected response",  };
+        }
+
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return { success: false, message: error.message, user: null };
+    }
+};
+
+export {sendchatmessage,getuserchat,addbookmark,chatuserlist, removebookmark,getuser,getbookmarkslist,updateaddress,addaddress,deleteaddress,login,updatestorereview,listaddress,reviewdelete, otp_Verify,getcarservicestoreid, addstorereview,send_Otp, getcitylist, register ,getneaybycarservicestore,createpassword,getdashboard,getservicesbycategoryid }  

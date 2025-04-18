@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, Image, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 
 import SearchBar from "../../component/SearchBar";
@@ -6,68 +6,58 @@ import ScreenNameEnum from "../../routes/screenName.enum";
 import CustomHeader from "../../component/CustomHeaderProps";
 import images from "../../component/Image";
 import Icon from "../../component/Icon";
+import { chatuserlist } from "../../redux/Api/apiRequests";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 
-interface ChatItem {
-    id: string;
-    name: string;
-    message: string;
-    time: string;
-    avatar: string;
-    unreadMessages?: number;
-    isTyping?: boolean;
+interface User {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    profile_image: string;
 }
 
-const chatData: ChatItem[] = [
-    {
-        id: "1",
-        name: "Wilson Lubin",
-        message: "Typing...",
-        time: "08:00am",
-        avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-        unreadMessages: 2,
-        isTyping: true,
-    },
-    {
-        id: "2",
-        name: "Marcus Kenter",
-        message: "Have you spoken to the delivery...",
-        time: "08:00am",
-        avatar: "https://randomuser.me/api/portraits/men/2.jpg",
-    },
-    {
-        id: "3",
-        name: "Desirae Dias",
-        message: "Have you spoken to the delivery...",
-        time: "08:00am",
-        avatar: "https://randomuser.me/api/portraits/women/3.jpg",
-    },
-    {
-        id: "4",
-        name: "Skylar Curtis",
-        message: "Have you spoken to the delivery...",
-        time: "08:00am",
-        avatar: "https://randomuser.me/api/portraits/women/4.jpg",
-    },
-    {
-        id: "5",
-        name: "Davis Aminoff",
-        message: "Have you spoken to the delivery...",
-        time: "08:00am",
-        avatar: "https://randomuser.me/api/portraits/men/5.jpg",
-    },
-];
+interface ChatItem {
+    user: User;
+    last_message: string;
+    message_type: 'text' | 'image' | 'video' | 'file'; // Extendable
+    created_at: string; // ISO timestamp
+    unseen_count: number;
+}
+
+
 
 const ChatList: React.FC = ({ navigation }) => {
+    const isFocus = useIsFocused()
+    const [chatUser, setChatUser] = useState<ChatItem[]>([]);
+
+    useEffect(() => {
+        getuserlist()
+    }, [isFocus])
+
+    const getuserlist = async () => {
+        const data = await AsyncStorage.getItem('user');
+        const user = JSON.parse(data);
+        const res = await chatuserlist(user?.id)
+
+
+        if (res.success) {
+            setChatUser(res?.data)
+        }
+    }
+
+
     return (
         <View style={styles.container}>
-                <View style={styles.header}>
+            <View style={styles.header}>
                 <TouchableOpacity
-            
-            onPress={() => navigation.goBack()} style={{}}>
-                <Image source={images.BackNavs1} style={{height:30,width:30,tintColor:'#fff'} } />
-            </TouchableOpacity>
-      
-        
+
+                    onPress={() => navigation.goBack()} style={{}}>
+                    <Image source={images.BackNavs1} style={{ height: 30, width: 30, tintColor: '#fff' }} />
+                </TouchableOpacity>
+
+
                 <Text style={styles.headerTitle}>Chat</Text>
             </View>
 
@@ -81,27 +71,42 @@ const ChatList: React.FC = ({ navigation }) => {
             </View>
 
             {/* Chat List */}
-            <FlatList
-                data={chatData}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate(ScreenNameEnum.ChatScreen)
-                        }}
-                        style={styles.chatItem}>
-                        <Image source={{ uri: item.avatar }} style={styles.avatar} />
-                        <View style={styles.chatDetails}>
-                            <Text style={styles.chatName}>{item.name}</Text>
-                            <Text style={[styles.chatMessage, item.isTyping && styles.typingText]}>{item.message}</Text>
-                        </View>
-                        <View style={styles.chatMeta}>
-                            <Text style={styles.chatTime}>{item.time}</Text>
-                            {item.unreadMessages && <View style={styles.unreadBadge}><Text style={styles.unreadText}>{item.unreadMessages}</Text></View>}
-                        </View>
-                    </TouchableOpacity>
-                )}
-            />
+            {chatUser.length > 0 ? (
+                <FlatList
+                    data={chatUser}
+                    keyExtractor={(item) => item.user.id.toString()}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            onPress={() => {
+                                navigation.navigate(ScreenNameEnum.ChatScreen, { receiverId: item.user.id });
+                            }}
+                            style={styles.chatItem}
+                        >
+                            <Image source={{ uri: item.user.profile_image }} style={styles.avatar} />
+                            <View style={styles.chatDetails}>
+                                <Text style={styles.chatName}>{`${item.user.first_name} ${item.user.last_name}`}</Text>
+                                <Text style={[styles.chatMessage]}>
+                                    {item.message_type === 'text' ? item.last_message : `[${item.message_type.toUpperCase()}]`}
+                                </Text>
+                            </View>
+                            <View style={styles.chatMeta}>
+                                <Text style={styles.chatTime}>
+                                    {new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </Text>
+                                {item.unseen_count > 0 && (
+                                    <View style={styles.unreadBadge}>
+                                        <Text style={styles.unreadText}>{item.unseen_count}</Text>
+                                    </View>
+                                )}
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                />
+            ) : (
+                <View>
+                    <Text>No User Found</Text>
+                </View>
+            )}
         </View>
     );
 };
@@ -117,13 +122,13 @@ export const styles = StyleSheet.create({
         padding: 20,
         paddingTop: 50,
         alignItems: "center",
-        flexDirection:'row'
+        flexDirection: 'row'
     },
     headerTitle: {
         fontSize: 22,
         fontWeight: "bold",
         color: "#fff",
-        marginLeft:'37%'
+        marginLeft: '37%'
     },
     searchContainer: {
         padding: 10
@@ -139,7 +144,7 @@ export const styles = StyleSheet.create({
     chatItem: {
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "#fff",
+        backgroundColor: "#F9FBFF",
         padding: 15,
         borderBottomWidth: 1,
         borderBottomColor: "#eee",
@@ -148,6 +153,7 @@ export const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
+        backgroundColor:'#888'
     },
     chatDetails: {
         flex: 1,

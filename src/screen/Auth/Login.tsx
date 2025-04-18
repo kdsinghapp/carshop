@@ -68,6 +68,7 @@ const Login: React.FC = ({ navigation }) => {
 
             await AsyncStorage.setItem('user',JSON.stringify(res.user))
             if (res?.success) {
+                await AsyncStorage.setItem('type', 'User')
                 navigation.navigate(ScreenNameEnum.LocationAccessScreen);
             } else {
                 Alert.alert('Login Failed', res?.message || 'Invalid credentials, please try again.');

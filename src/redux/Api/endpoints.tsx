@@ -21,6 +21,9 @@ export const endpoint = {
   getbookmarkslist: '/bookmark/get-bookmarks-by-user-id?',
 removebookmark: '/bookmark/delete-bookmark?',
 addbookmark: '/bookmark/add-bookmark?',
+chatuserlist:'/common/chat/get-chat-user-list?user_id=',
+getuserchat:'/common/chat/chat-list?',
+sendchatmessage:'/common/chat/send-message',
 
 
 };
